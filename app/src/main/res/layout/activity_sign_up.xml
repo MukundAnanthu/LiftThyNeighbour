@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,47 +12,128 @@
     tools:context="com.hackathon.gridlock.liftthyneighbour.SignUpActivity"
     >
 
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:orientation="vertical"
         >
 
-
         <TextView
+        android:id="@+id/tvSignUpUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter username"
+        android:textSize="20sp"
+        />
 
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/etSignUpUserName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome to sign up screen"
-            android:textSize="30sp"
-            android:layout_marginTop="40dp"
+            android:layout_below="@+id/tvSignUpUserName"
             />
 
+        <TextView
+            android:id="@+id/tvSignUpPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter password"
+            android:textSize="20sp"
+            android:layout_below="@+id/etSignUpUserName"
+            />
 
+        <EditText
+            android:id="@+id/etSignUpPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvSignUpPassword"
+            android:inputType="textPassword"
+            />
+
+        <TextView
+            android:id="@+id/tvSignUpApartmentName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Apartment Name"
+            android:textSize="20sp"
+            android:layout_below="@+id/etSignUpPassword"
+            />
+
+        <Spinner
+            android:id="@+id/spinnerApartmentNames"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvSignUpApartmentName"
+            />
+
+        <TextView
+            android:id="@+id/tvSignUpContactNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerApartmentNames"
+            android:textSize="20sp"
+            android:text="Contact Number"
+            />
+
+        <EditText
+            android:id="@+id/etSignUpContactNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:layout_below="@+id/tvSignUpContactNumber"
+            />
+
+        <TextView
+            android:id="@+id/tvSignUpFlatNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etSignUpContactNumber"
+            android:textSize="20sp"
+            android:text="Flat Number/ID"
+            />
+
+        <EditText
+            android:id="@+id/etSignUpFlatNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvSignUpFlatNumber"
+            />
+
+        <TextView
+            android:id="@+id/tvSignUpVehicleNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehicle Number"
+            android:textSize="20sp"
+            android:layout_below="@+id/etSignUpFlatNumber"
+            />
+
+        <EditText
+            android:id="@+id/etSignUpVehicleNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvSignUpVehicleNumber"
+            />
+
+        <TextView
+            android:id="@+id/tvSignUpEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Email"
+            android:layout_below="@+id/etSignUpVehicleNumber"
+            />
+
+        <EditText
+            android:id="@+id/etSignUpEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvSignUpEmail"
+            android:inputType="textEmailAddress"
+            />
 
     </RelativeLayout>
 
 </ScrollView>
-
-
-
-
-
-
-
-
-
-<!--
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.hackathon.gridlock.liftthyneighbour.SignUpActivity">
-
-
-
-</android.support.constraint.ConstraintLayout>-->

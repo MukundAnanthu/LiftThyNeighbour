@@ -94,11 +94,13 @@ public class MainActivity extends Activity {
     }
 
     private boolean authenticateAdmin(String userName, String password) {
+        String userType = getResources().getString(R.string.USER_TYPE_ADMIN);
         //TODO API hit to authenticate admin and store admin token
         return true;
     }
 
     private boolean authenticateUser(String userName, String password) {
+        String userType = getResources().getString(R.string.USER_TYPE_NORMAL);
         //TODO API hit to authenticate user and store user token
         return true;
     }

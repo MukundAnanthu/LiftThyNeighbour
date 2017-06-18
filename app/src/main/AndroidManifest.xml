@@ -18,7 +18,9 @@
         </activity>
         <activity android:name=".AdminHomeActivity" />
         <activity android:name=".UserHomeActivity" />
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".SignUpActivity"
+            android:label="Sign Up"
+            ></activity>
     </application>
 
 </manifest>

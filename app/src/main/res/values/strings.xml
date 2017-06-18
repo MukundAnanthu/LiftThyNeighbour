@@ -10,4 +10,6 @@
     <string name="KEY_IS_USER_SIGNED">KEY_IS_USER_SIGNED</string>
     <string name="AUTHENTICATION_FAILED">Login Failed! Please try again...</string>
     <string name="KEY_IS_USER_ADMIN">com.hackathon.gridlock.KEY_IS_USER_ADMIN</string>
+    <string name="USER_TYPE_ADMIN">ADMIN</string>
+    <string name="USER_TYPE_NORMAL">NORMAL</string>
 </resources>
