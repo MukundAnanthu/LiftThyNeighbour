@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">LiftThyNeighbour</string>
+    <string name="liftthyneighbour">LiftThyNeighbour</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="login_as_admin">Login as admin?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="new_user_sign_up">New user? Sign Up</string>
+    <string name="PREFERENCE_FILE_NAME">com.hackathon.gridlock.PREFENCE_FILE_NAME</string>
+    <string name="KEY_IS_USER_SIGNED">KEY_IS_USER_SIGNED</string>
 </resources>
