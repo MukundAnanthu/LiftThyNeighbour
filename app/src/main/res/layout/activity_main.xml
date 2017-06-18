@@ -104,7 +104,7 @@
 
         <Button
             android:id="@+id/btSignIn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sign_in"
             android:layout_below="@+id/checkBoxAdmin"
