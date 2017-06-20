@@ -15,6 +15,7 @@ public class OfferRide extends Activity {
 
     ArrayList<TechPark> techParks;
     private final String TIME_PICKER_FRAGMENT_TAG = "com.hackathon.gridlock.liftthyneighbour.OfferRide";
+    private final String DATE_PICKER_FRAGMENT_TAG = "com.hackathon.gridlock.liftthyneighbour.OfferRide_date";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,4 +61,9 @@ public class OfferRide extends Activity {
         newFragment.show(getFragmentManager(), TIME_PICKER_FRAGMENT_TAG);
     }
 
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new OfferRideDatePickerFragment();
+        newFragment.show(getFragmentManager(), DATE_PICKER_FRAGMENT_TAG);
+    }
 }
