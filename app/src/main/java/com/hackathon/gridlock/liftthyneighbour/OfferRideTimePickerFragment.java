@@ -50,4 +50,6 @@ public class OfferRideTimePickerFragment extends DialogFragment
         }
         pickUpTimeEt.setText(timeChosen);
     }
+
+
 }
