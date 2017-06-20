@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,29 +13,21 @@
 
 
 
-    <RelativeLayout
+
+
+
+
+    <ListView
+        android:id="@+id/lvAdminOps"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        >
-
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome to Admin Home screen"
-            android:textSize="30sp"
-            android:layout_marginTop="40dp"
-            />
+        android:entries="@array/admin_ops_list_entries"
+        />
 
 
 
-    </RelativeLayout>
 
-</ScrollView>
-
+</RelativeLayout>
 
 
 

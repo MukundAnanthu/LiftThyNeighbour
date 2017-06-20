@@ -24,6 +24,7 @@
 
         <activity android:name=".AdminHomeActivity"
             android:screenOrientation="portrait"
+            android:label="@string/admin_home_title"
             />
 
         <activity android:name=".UserHomeActivity"
