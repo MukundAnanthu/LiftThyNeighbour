@@ -3,6 +3,8 @@ package com.hackathon.gridlock.liftthyneighbour;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -78,6 +80,22 @@ public class TenantDetails extends Activity {
         setContentView(R.layout.activity_tenant_details);
 
         displayTenantDetails();
+        setUpDeregisterButtonClickListener();
+    }
+
+    private void setUpDeregisterButtonClickListener() {
+        Button deregisterButton = (Button) findViewById(R.id.bDeRegisterTenant);
+        deregisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deregisterTenant();
+            }
+        });
+    }
+
+
+    private void deregisterTenant() {
+        //TODO make API call to delete tenant display toast for result
     }
 
     private void displayTenantDetails() {
