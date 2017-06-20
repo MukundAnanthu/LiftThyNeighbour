@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hackathon.gridlock.liftthyneighbour">
 
-
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,8 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,20 +20,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".AdminHomeActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".AdminHomeActivity"
             android:label="@string/admin_home_title"
-            />
-
-        <activity android:name=".UserHomeActivity"
-            android:screenOrientation="portrait"
-            />
-
-        <activity android:name=".SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserHomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignUpActivity"
             android:label="Sign Up"
+            android:screenOrientation="portrait" />
+        <activity android:name=".PendingApprovals"
+            android:label="Pending Approvals"
             android:screenOrientation="portrait"
-            ></activity>
+            />
+        <activity android:name=".TenantList"
+            android:label="Tenant List"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>
