@@ -2,7 +2,9 @@ package com.hackathon.gridlock.liftthyneighbour;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.hackathon.gridlock.liftthyneighbour.vos.Apartment;
@@ -20,9 +22,26 @@ public class SignUpActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        //TODO Fill up Apartment Name spinner from API response
+
+        // Populate Apartment Spinner in form
         ArrayList<Apartment> apartments = getApartmentList();
         populateApartmentSpinnerInUI(apartments);
+
+
+        // Sign Up Button Click Listener
+        Button signUpButton = (Button) findViewById(R.id.bSignUp);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeSignUpAPICall();
+            }
+        });
+    }
+
+
+    private void makeSignUpAPICall() {
+        //TODO Make Sign Up API call
+        // if call fails, toast error, else toast success
     }
 
     private void populateApartmentSpinnerInUI(ArrayList<Apartment> apartments) {

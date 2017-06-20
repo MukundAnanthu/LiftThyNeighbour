@@ -134,6 +134,19 @@
             android:inputType="textEmailAddress"
             />
 
+        <Button
+            android:id="@+id/bSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_up"
+            android:layout_below="@+id/etSignUpEmail"
+            android:textColor="#ffffff"
+            android:padding="10dp"
+            android:background="@drawable/mybutton"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            />
+
     </RelativeLayout>
 
 </ScrollView>
