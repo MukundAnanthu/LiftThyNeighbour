@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context="com.hackathon.gridlock.liftthyneighbour.PendingApprovalDetails"
+    >
+
+    <TextView
+        android:id="@+id/tvPANameLabel"
+        android:textSize="20sp"
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        />
+
+    <TextView
+        android:id="@+id/tvPAName"
+        android:layout_below="@+id/tvPANameLabel"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tvPAFlatNumberLabel"
+        android:textSize="20sp"
+        android:layout_below="@+id/tvPAName"
+        android:text="Flat Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        />
+
+    <TextView
+        android:id="@+id/tvPAFlatNumber"
+        android:layout_below="@+id/tvPAFlatNumberLabel"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tvPAVehicleNumberLabel"
+        android:textSize="20sp"
+        android:layout_below="@+id/tvPAFlatNumber"
+        android:text="Vehicle Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        />
+
+    <TextView
+        android:id="@+id/tvPAVehicleNumber"
+        android:layout_below="@+id/tvPAVehicleNumberLabel"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tvPAContactNumberLabel"
+        android:textSize="20sp"
+        android:layout_below="@+id/tvPAVehicleNumber"
+        android:text="Contact Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        />
+
+    <TextView
+        android:id="@+id/tvPAContactNumber"
+        android:layout_below="@+id/tvPAContactNumberLabel"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tvPAEmailLabel"
+        android:textSize="20sp"
+        android:layout_below="@+id/tvPAContactNumber"
+        android:text="Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        />
+
+    <TextView
+        android:id="@+id/tvPAEmail"
+        android:layout_below="@+id/tvPAEmailLabel"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:id="@+id/bApprove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/approve_tenant"
+        android:textColor="#ffffff"
+        android:padding="10dp"
+        android:background="@drawable/mybutton"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvPAEmail"
+        />
+
+    <Button
+        android:id="@+id/bReject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reject_tenant"
+        android:textColor="#ffffff"
+        android:padding="10dp"
+        android:background="@drawable/mybuttonred"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/bApprove"
+        />
+
+</RelativeLayout>

@@ -39,8 +39,12 @@
             android:name=".TenantList"
             android:label="Tenant List"
             android:screenOrientation="portrait" />
-        <activity android:name=".TenantDetails"
+        <activity
+            android:name=".TenantDetails"
             android:label="Tenant Details"
+            android:screenOrientation="portrait" />
+        <activity android:name=".PendingApprovalDetails"
+            android:label="Approval Details"
             android:screenOrientation="portrait"
             />
     </application>
