@@ -29,6 +29,7 @@ import java.util.ArrayList;
 public class SignUpActivity extends Activity {
 
     private RequestQueue requestQueue;
+    private ArrayList<Apartment> apartmentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,9 @@ public class SignUpActivity extends Activity {
     private void populateApartmentSpinnerInUI(ArrayList<Apartment> apartments) {
         Spinner apartmentSpinner = (Spinner) findViewById(R.id.spinnerApartmentNames);
         ArrayList<String> apartmentNames = new ArrayList<String>();
+
+        // for fetching apartment id when sending API hit for Form Sign Up
+        this.apartmentList = apartments;
 
         for (Apartment apartment: apartments ) {
             apartmentNames.add(apartment.getName());
