@@ -99,7 +99,7 @@ public class MainActivity extends Activity {
     private void authenticateAdmin(String userName, String password) {
         final String userType = getResources().getString(R.string.USER_TYPE_ADMIN);
         final Toast loginErrorToast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.AUTHENTICATION_FAILED), Toast.LENGTH_LONG);
-        
+
         if (requestQueue != null) {
             String baseUrl = getResources().getString(R.string.BASE_URL);
             String targetUrl = baseUrl + getResources().getString(R.string.API_LOGIN);
@@ -147,8 +147,53 @@ public class MainActivity extends Activity {
     }
 
     private void authenticateUser(String userName, String password) {
-        String userType = getResources().getString(R.string.USER_TYPE_NORMAL);
-        //TODO API hit to authenticate user and store user token
+        final String userType = getResources().getString(R.string.USER_TYPE_NORMAL);
+        final Toast loginErrorToast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.AUTHENTICATION_FAILED), Toast.LENGTH_LONG);
+
+        if (requestQueue!= null) {
+            String baseUrl = getResources().getString(R.string.BASE_URL);
+            String targetUrl = baseUrl + getResources().getString(R.string.API_LOGIN);
+            HashMap<String, String> requestBody = new HashMap<String, String>();
+            requestBody.put("userId",userName);
+            requestBody.put("password",password);
+            requestBody.put("userType",userType);
+
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, targetUrl, new JSONObject(requestBody), new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                String authenticationStatus = response.getString("result");
+                                if (authenticationStatus.equals("SUCCESS")) {
+                                    setTokenAndUserType(response.getString("token"), userType);
+                                    redirectToUserHomePage();
+                                }
+                                else {
+                                    loginErrorToast.show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            loginErrorToast.show();
+                        }
+                    }){
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type","application/json");
+                    return headers;
+                }
+            };
+            jsObjRequest.setShouldCache(false);
+            requestQueue.add(jsObjRequest);
+        }
     }
 
     private boolean isUserAdmin() {
@@ -176,6 +221,11 @@ public class MainActivity extends Activity {
         editor.putString(getString(R.string.KEY_USER_TYPE),userType);
         editor.commit();
 
+    }
+
+    private void redirectToUserHomePage() {
+        Intent i = new Intent(this, UserHomeActivity.class);
+        startActivity(i);
     }
 
 }
