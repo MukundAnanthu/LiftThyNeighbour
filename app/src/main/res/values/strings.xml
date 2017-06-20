@@ -10,8 +10,10 @@
     <string name="KEY_IS_USER_SIGNED">KEY_IS_USER_SIGNED</string>
     <string name="AUTHENTICATION_FAILED">Login Failed! Please try again...</string>
     <string name="KEY_IS_USER_ADMIN">com.hackathon.gridlock.KEY_IS_USER_ADMIN</string>
+    <string name="KEY_TOKEN">com.hackathon.gridlock.KEY_TOKEN</string>
+    <string name="KEY_USER_TYPE">com.hackathon.gridlock.KEY_USER_TYPE</string>
     <string name="USER_TYPE_ADMIN">ADMIN</string>
     <string name="USER_TYPE_NORMAL">NORMAL</string>
-    <string name="BASE_URL">http://192.168.43.235:8080</string>
+    <string name="BASE_URL">http://192.168.1.2:8080</string>
     <string name="API_LOGIN">/api/login</string>
 </resources>

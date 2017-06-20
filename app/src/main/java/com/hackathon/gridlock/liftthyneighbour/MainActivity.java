@@ -21,7 +21,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.hackathon.gridlock.liftthyneighbour.util.RequestQueueProviderSingleton;
 
 import org.json.JSONException;
@@ -34,7 +33,7 @@ import java.util.Map;
 public class MainActivity extends Activity {
 
     private RequestQueue requestQueue;
-
+    private String adminAuthenticationStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +67,6 @@ public class MainActivity extends Activity {
             final EditText editTextPassword = (EditText) findViewById(R.id.etPassword);
             Button buttonSignIn = (Button) findViewById(R.id.btSignIn);
 
-            final Intent redirectToAdminHomeIntent = new Intent(this, AdminHomeActivity.class);
-            final Intent redirectToUserHomeIntent = new Intent(this, UserHomeActivity.class);
-
             buttonSignIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,26 +74,10 @@ public class MainActivity extends Activity {
                     String userName = editTextUserName.getText().toString();
                     String password = editTextPassword.getText().toString();
                     if(isAdmin) {
-                        boolean isAdminAuthenticated = authenticateAdmin(userName,password);
-                        if (isAdminAuthenticated) {
-                            startActivity(redirectToAdminHomeIntent);
-                        } else {
-                            CharSequence toastMessage = (CharSequence) getResources().getString(R.string.AUTHENTICATION_FAILED);
-                            Toast authenticationFailedToast = Toast.makeText(MainActivity.this, toastMessage, Toast.LENGTH_LONG);
-                            authenticationFailedToast.show();
-
-                        }
+                        authenticateAdmin(userName,password);
                     }
                     else {
-                        boolean isUserAuthenticated = authenticateUser(userName,password);
-                        if(isUserAuthenticated) {
-                            startActivity(redirectToUserHomeIntent);
-                        }
-                        else {
-                            CharSequence toastMessage = (CharSequence) getResources().getString(R.string.AUTHENTICATION_FAILED);
-                            Toast authenticationFailedToast = Toast.makeText(MainActivity.this, toastMessage, Toast.LENGTH_LONG);
-                            authenticationFailedToast.show();
-                        }
+                        authenticateUser(userName,password);
                     }
                 }
             });
@@ -116,29 +96,32 @@ public class MainActivity extends Activity {
         }
     }
 
-    private boolean authenticateAdmin(String userName, String password) {
-        String userType = getResources().getString(R.string.USER_TYPE_ADMIN);
-        //TODO API hit to authenticate admin and store admin token
-
-        if (requestQueue!=null) {
+    private void authenticateAdmin(String userName, String password) {
+        final String userType = getResources().getString(R.string.USER_TYPE_ADMIN);
+        final Toast loginErrorToast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.AUTHENTICATION_FAILED), Toast.LENGTH_LONG);
+        
+        if (requestQueue != null) {
             String baseUrl = getResources().getString(R.string.BASE_URL);
             String targetUrl = baseUrl + getResources().getString(R.string.API_LOGIN);
-
-            Log.i("TargetURL: ",targetUrl);
-
-            HashMap<String, String> hm = new HashMap<String, String>();
-            hm.put("userId",userName);
-            hm.put("password",password);
-            hm.put("userType",userType);
+            HashMap<String, String> requestBody = new HashMap<String, String>();
+            requestBody.put("userId",userName);
+            requestBody.put("password",password);
+            requestBody.put("userType",userType);
 
             JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                    (Request.Method.POST, targetUrl, new JSONObject(hm), new Response.Listener<JSONObject>() {
+                    (Request.Method.POST, targetUrl, new JSONObject(requestBody), new Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.i("Response: ",response.toString());
                             try {
-                                Log.i("Response:state: ", response.getString("result"));
+                                String authenticationStatus = response.getString("result");
+                                if (authenticationStatus.equals("SUCCESS")) {
+                                    setTokenAndUserType(response.getString("token"), userType);
+                                    redirectToAdminHomePage();
+                                }
+                                else {
+                                    loginErrorToast.show();
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -147,8 +130,7 @@ public class MainActivity extends Activity {
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.i("ResponseERrrrroor:",error.toString());
-
+                            loginErrorToast.show();
                         }
                     }){
 
@@ -159,20 +141,14 @@ public class MainActivity extends Activity {
                     return headers;
                 }
             };
-
+            jsObjRequest.setShouldCache(false);
             requestQueue.add(jsObjRequest);
         }
-
-        return true;
     }
 
-    private boolean authenticateUser(String userName, String password) {
+    private void authenticateUser(String userName, String password) {
         String userType = getResources().getString(R.string.USER_TYPE_NORMAL);
         //TODO API hit to authenticate user and store user token
-
-
-
-        return true;
     }
 
     private boolean isUserAdmin() {
@@ -187,5 +163,19 @@ public class MainActivity extends Activity {
         return sharedPreferences.getBoolean(isUserSignedKey, false);
     }
 
+    // switches from sign in activity to admin home screen
+    private void redirectToAdminHomePage() {
+        Intent i = new Intent(this, AdminHomeActivity.class);
+        startActivity(i);
+    }
+
+    private void setTokenAndUserType(String token, String userType) {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(getString(R.string.KEY_TOKEN), token);
+        editor.putString(getString(R.string.KEY_USER_TYPE),userType);
+        editor.commit();
+
+    }
 
 }
