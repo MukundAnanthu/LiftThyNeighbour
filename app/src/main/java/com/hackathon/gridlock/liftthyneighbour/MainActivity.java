@@ -103,7 +103,7 @@ public class MainActivity extends Activity {
             String baseUrl = getResources().getString(R.string.BASE_URL);
             String targetUrl = baseUrl + getResources().getString(R.string.API_LOGIN);
             HashMap<String, String> requestBody = new HashMap<String, String>();
-            requestBody.put("userId",userName);
+            requestBody.put("userName",userName);
             requestBody.put("password",password);
             requestBody.put("userType",userType);
 
@@ -116,6 +116,7 @@ public class MainActivity extends Activity {
                                 String authenticationStatus = response.getString("result");
                                 if (authenticationStatus.equals("SUCCESS")) {
                                     setTokenAndUserType(response.getString("token"), userType);
+                                    setUserId(response.getInt("userId"));
                                     redirectToAdminHomePage();
                                 }
                                 else {
@@ -145,6 +146,14 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void setUserId(int userId) {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(getString(R.string.KEY_USER_ID),userId);
+        editor.commit();
+
+    }
+
     private void authenticateUser(String userName, String password) {
         final String userType = getResources().getString(R.string.USER_TYPE_NORMAL);
         final Toast loginErrorToast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.AUTHENTICATION_FAILED), Toast.LENGTH_LONG);
@@ -153,7 +162,7 @@ public class MainActivity extends Activity {
             String baseUrl = getResources().getString(R.string.BASE_URL);
             String targetUrl = baseUrl + getResources().getString(R.string.API_LOGIN);
             HashMap<String, String> requestBody = new HashMap<String, String>();
-            requestBody.put("userId",userName);
+            requestBody.put("userName",userName);
             requestBody.put("password",password);
             requestBody.put("userType",userType);
 
@@ -166,7 +175,7 @@ public class MainActivity extends Activity {
                                 String authenticationStatus = response.getString("result");
                                 if (authenticationStatus.equals("SUCCESS")) {
                                     setTokenAndUserType(response.getString("token"), userType);
-                                    //TODO setUserId also. It may be required for /deleteUser, etc
+                                    setUserId(response.getInt("userId"));
                                     redirectToUserHomePage();
                                 }
                                 else {

@@ -34,4 +34,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="offer_ride">Offer Ride</string>
     <string name="take_ride">Take Ride</string>
+    <string name="KEY_USER_ID">com.hackathon.gridlock.KEY_USER_ID</string>
 </resources>
