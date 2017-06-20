@@ -3,7 +3,6 @@ package com.hackathon.gridlock.liftthyneighbour;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -57,7 +56,7 @@ public class OfferRide extends Activity {
     }
 
     public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
+        DialogFragment newFragment = new OfferRideTimePickerFragment();
         newFragment.show(getFragmentManager(), TIME_PICKER_FRAGMENT_TAG);
     }
 
