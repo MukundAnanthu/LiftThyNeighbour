@@ -41,7 +41,7 @@ public class OfferRideDatePickerFragment extends DialogFragment
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         EditText pickUpDateEditText = (EditText) getActivity().findViewById(R.id.etORPickUpDate);
-        String dateChosen = Integer.toString(dayOfMonth) + "-" + Integer.toString(month) + "-" +
+        String dateChosen = Integer.toString(dayOfMonth) + "-" + Integer.toString(month+1) + "-" +
                     Integer.toString(year);
         pickUpDateEditText.setText(dateChosen);
     }
