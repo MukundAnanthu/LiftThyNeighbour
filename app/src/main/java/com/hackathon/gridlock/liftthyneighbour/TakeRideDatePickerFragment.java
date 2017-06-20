@@ -18,11 +18,12 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OfferRideDatePickerFragment extends DialogFragment
+
+public class TakeRideDatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
 
-    public OfferRideDatePickerFragment() {
+    public TakeRideDatePickerFragment() {
         // Required empty public constructor
     }
     @Override
@@ -40,11 +41,9 @@ public class OfferRideDatePickerFragment extends DialogFragment
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        EditText pickUpDateEditText = (EditText) getActivity().findViewById(R.id.etORPickUpDate);
+        EditText pickUpDateEditText = (EditText) getActivity().findViewById(R.id.etTRPickUpDate);
         String dateChosen = Integer.toString(dayOfMonth) + "-" + Integer.toString(month) + "-" +
-                    Integer.toString(year);
+                Integer.toString(year);
         pickUpDateEditText.setText(dateChosen);
     }
 }
-
-

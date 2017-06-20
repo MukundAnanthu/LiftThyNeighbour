@@ -76,7 +76,7 @@ public class OfferRide extends Activity {
         newFragment.show(getFragmentManager(), DATE_PICKER_FRAGMENT_TAG);
     }
 
-    public void onOfferRideButtonClicked() {
-        //TODO API Call to book ride and display toast 
+    public void onOfferRideButtonClicked(View v) {
+        //TODO API Call to book ride and display toast
     }
 }

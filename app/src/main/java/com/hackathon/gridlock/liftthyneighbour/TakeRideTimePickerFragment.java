@@ -19,10 +19,11 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OfferRideTimePickerFragment extends DialogFragment
+public class TakeRideTimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
-    public OfferRideTimePickerFragment() {
+    public TakeRideTimePickerFragment() {
+
     }
 
     @Override
@@ -39,7 +40,7 @@ public class OfferRideTimePickerFragment extends DialogFragment
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
-        EditText pickUpTimeEt = (EditText) getActivity().findViewById(R.id.etORPickUpTime);
+        EditText pickUpTimeEt = (EditText) getActivity().findViewById(R.id.etTRPickUpTime);
         String timeChosen = "";
 
         if (minute < 10) {

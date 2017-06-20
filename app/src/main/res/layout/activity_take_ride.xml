@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,9 +10,136 @@
     android:paddingTop="16dp"
     tools:context="com.hackathon.gridlock.liftthyneighbour.TakeRide">
 
-    <TextView
-        android:text="Take Ride"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvTRTechParkLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Tech Park"
+            android:textSize="20sp"
+            />
+
+        <Spinner
+            android:id="@+id/spinnerTRTechPark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTRTechParkLabel"
+            android:layout_marginTop="5dp"
+            />
+
+
+        <TextView
+            android:id="@+id/tvTRPickUpTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick Up Time"
+            android:textSize="20sp"
+            android:layout_below="@+id/spinnerTRTechPark"
+            android:layout_marginTop="5dp"
+            />
+
+        <EditText
+            android:id="@+id/etTRPickUpTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTRPickUpTime"
+            android:editable="false"
+            />
+
+        <Button
+            android:id="@+id/bTRPickUpTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etTRPickUpTime"
+            android:text="Pick Up Time"
+            android:background="@drawable/mybutton"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:onClick="showTimePickerDialog"
+            />
+
+        <TextView
+            android:id="@+id/tvTRPickUPDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick Up Date"
+            android:textSize="20sp"
+            android:layout_below="@+id/bTRPickUpTime"
+            />
+
+        <EditText
+            android:id="@+id/etTRPickUpDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTRPickUPDate"
+            android:editable="false"
+            />
+
+        <Button
+            android:id="@+id/bTRPickUpDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etTRPickUpDate"
+            android:text="Pick Up Date"
+            android:background="@drawable/mybutton"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:onClick="showDatePickerDialog"
+            />
+
+        <RadioGroup
+            android:id="@+id/rgTR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bTRPickUpDate"
+            android:layout_marginTop="10dp"
+            >
+
+            <TextView
+                android:id="@+id/tvTRChooseDestinationType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Destination Type"
+                android:textSize="20sp"
+                />
+
+            <RadioButton
+                android:id="@+id/rbTRTechPark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tech Park"
+                />
+            <RadioButton
+                android:id="@+id/rbTRApartment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apartment"
+                />
+
+        </RadioGroup>
+
+
+        <Button
+            android:id="@+id/bTakeRide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/take_ride"
+            android:layout_below="@+id/rgTR"
+            android:textColor="#ffffff"
+            android:padding="10dp"
+            android:background="@drawable/mybutton"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:onClick="onTakeRideButtonClicked"
+            />
+
+    </RelativeLayout>
+</ScrollView>
