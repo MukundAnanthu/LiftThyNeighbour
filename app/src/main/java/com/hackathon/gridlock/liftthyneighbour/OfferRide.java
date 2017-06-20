@@ -1,7 +1,10 @@
 package com.hackathon.gridlock.liftthyneighbour;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -12,7 +15,7 @@ import java.util.ArrayList;
 public class OfferRide extends Activity {
 
     ArrayList<TechPark> techParks;
-
+    private final String TIME_PICKER_FRAGMENT_TAG = "com.hackathon.gridlock.liftthyneighbour.OfferRide";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,11 @@ public class OfferRide extends Activity {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,techParkNames);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         techParkSpinner.setAdapter(spinnerAdapter);
+    }
+
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getFragmentManager(), TIME_PICKER_FRAGMENT_TAG);
     }
 
 }
