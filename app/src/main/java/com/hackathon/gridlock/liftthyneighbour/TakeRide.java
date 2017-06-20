@@ -13,8 +13,19 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.hackathon.gridlock.liftthyneighbour.util.RequestQueueProviderSingleton;
 import com.hackathon.gridlock.liftthyneighbour.vos.TechPark;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -23,11 +34,16 @@ public class TakeRide extends Activity {
     ArrayList<TechPark> techParks;
     private final String TIME_PICKER_FRAGMENT_TAG = "com.hackathon.gridlock.liftthyneighbour.TakeRide";
     private final String DATE_PICKER_FRAGMENT_TAG = "com.hackathon.gridlock.liftthyneighbour.TakeRide_date";
+    private RequestQueue requestQueue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_ride);
+
+        // setup request queue for API hits
+        requestQueue = RequestQueueProviderSingleton.getRequestQueue(getApplicationContext());
 
 
         populateTechParkSpinner();
@@ -45,18 +61,54 @@ public class TakeRide extends Activity {
     }
 
     private void populateTechParkSpinner() {
+        final Toast errorToast = Toast.makeText(getApplicationContext(),"Failed to fetch Tech Park List",Toast.LENGTH_LONG);
+
+        if (requestQueue != null) {
+            String baseUrl = getString(R.string.BASE_URL);
+            String targetUrl = baseUrl + "/api/getTechParkList";
+
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest(
+                    Request.Method.POST, targetUrl, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (response != null ) {
+                                    Gson gson = new Gson();
+                                    TechPark[] techParkList = gson.fromJson(response.getJSONArray("techParkList").toString(), TechPark[].class );
+                                    ArrayList<TechPark> techParks = new ArrayList<TechPark>();
+                                    int numTechParks = techParkList.length;
+                                    for (int i = 0; i < numTechParks; i++ ) {
+                                        techParks.add(techParkList[i]);
+                                    }
+                                    populateSpinner(techParks);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorToast.show();
+                        }
+                    }
+            );
+
+            jsObjRequest.setShouldCache(false);
+            requestQueue.add(jsObjRequest);
+        }
+
         //TODO API call to get list of Tech Parks
-
         //dummy data
-        TechPark one = new TechPark(1, "Bagmane");
-        TechPark two = new TechPark(2, "RMZ");
-
-        ArrayList<TechPark> techParks = new ArrayList<TechPark>();
-        techParks.add(one);
-        techParks.add(two);
-
+        //TechPark one = new TechPark(1, "Bagmane");
+        //TechPark two = new TechPark(2, "RMZ");
+        //ArrayList<TechPark> techParks = new ArrayList<TechPark>();
+        //techParks.add(one);
+        //techParks.add(two);
         //to be called from within onResponse
-        populateSpinner(techParks);
+        //populateSpinner(techParks);
     }
 
     // Populates the tech park spinner with data

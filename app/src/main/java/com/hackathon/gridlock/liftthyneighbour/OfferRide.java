@@ -99,19 +99,6 @@ public class OfferRide extends Activity {
             jsObjRequest.setShouldCache(false);
             requestQueue.add(jsObjRequest);
         }
-
-
-
-        //TODO API call to get list of Tech Parks
-        //dummy data
-        //TechPark one = new TechPark(1, "Bagmane");
-        //TechPark two = new TechPark(2, "RMZ");
-        //ArrayList<TechPark> techParks = new ArrayList<TechPark>();
-        //techParks.add(one);
-        //techParks.add(two);
-        //to be called from within onResponse
-        //populateSpinner(techParks);
-
     }
 
     // Populates the tech park spinner with data
