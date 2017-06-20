@@ -24,6 +24,7 @@ public class SignUpActivity extends Activity {
         setContentView(R.layout.activity_sign_up);
 
         // Populate Apartment Spinner in form
+        // TODO restructure population such that spinner is populated onSuccessResponse
         ArrayList<Apartment> apartments = getApartmentList();
         populateApartmentSpinnerInUI(apartments);
 

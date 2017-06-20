@@ -167,6 +167,7 @@ public class MainActivity extends Activity {
                                 String authenticationStatus = response.getString("result");
                                 if (authenticationStatus.equals("SUCCESS")) {
                                     setTokenAndUserType(response.getString("token"), userType);
+                                    //TODO setUserId also. It may be required for /deleteUser, etc
                                     redirectToUserHomePage();
                                 }
                                 else {

@@ -18,6 +18,7 @@
     <string name="API_LOGIN">/api/login</string>
     <string name="sign_up">Sign Up</string>
     <string name="admin_home_title">Admin Home</string>
+    <string name="deregister_tenant">Deregister</string>
     <string-array name="admin_ops_list_entries">
         <item>Pending Approvals</item>
         <item>Tenant List</item>

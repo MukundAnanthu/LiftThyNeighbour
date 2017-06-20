@@ -31,12 +31,16 @@
             android:name=".SignUpActivity"
             android:label="Sign Up"
             android:screenOrientation="portrait" />
-        <activity android:name=".PendingApprovals"
+        <activity
+            android:name=".PendingApprovals"
             android:label="Pending Approvals"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".TenantList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TenantList"
             android:label="Tenant List"
+            android:screenOrientation="portrait" />
+        <activity android:name=".TenantDetails"
+            android:label="Tenant Details"
             android:screenOrientation="portrait"
             />
     </application>

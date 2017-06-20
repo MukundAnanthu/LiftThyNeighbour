@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context="com.hackathon.gridlock.liftthyneighbour.TenantDetails"
+    >
+
+    <TextView
+        android:id="@+id/tvTDNameLabel"
+        android:textSize="20sp"
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        />
+
+    <TextView
+        android:id="@+id/tvTDName"
+        android:layout_below="@+id/tvTDNameLabel"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tvTDFlatNumberLabel"
+        android:textSize="20sp"
+        android:layout_below="@+id/tvTDName"
+        android:text="Flat Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        />
+
+    <TextView
+        android:id="@+id/tvTDFlatNumber"
+        android:layout_below="@+id/tvTDFlatNumberLabel"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tvTDVehicleNumberLabel"
+        android:textSize="20sp"
+        android:layout_below="@+id/tvTDFlatNumber"
+        android:text="Vehicle Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        />
+
+    <TextView
+        android:id="@+id/tvTDVehicleNumber"
+        android:layout_below="@+id/tvTDVehicleNumberLabel"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tvTDContactNumberLabel"
+        android:textSize="20sp"
+        android:layout_below="@+id/tvTDVehicleNumber"
+        android:text="Contact Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        />
+
+    <TextView
+        android:id="@+id/tvTDContactNumber"
+        android:layout_below="@+id/tvTDContactNumberLabel"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tvTDEmailLabel"
+        android:textSize="20sp"
+        android:layout_below="@+id/tvTDContactNumber"
+        android:text="Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        />
+
+    <TextView
+        android:id="@+id/tvTDEmail"
+        android:layout_below="@+id/tvTDEmailLabel"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:id="@+id/bDeRegisterTenant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/deregister_tenant"
+        android:textColor="#ffffff"
+        android:padding="10dp"
+        android:background="@drawable/mybuttonred"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvTDEmail"
+        />
+
+</RelativeLayout>
+
+
+
+
