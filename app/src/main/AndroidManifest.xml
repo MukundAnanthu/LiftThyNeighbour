@@ -26,6 +26,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UserHomeActivity"
+            android:label="Home"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SignUpActivity"
@@ -43,8 +44,16 @@
             android:name=".TenantDetails"
             android:label="Tenant Details"
             android:screenOrientation="portrait" />
-        <activity android:name=".PendingApprovalDetails"
+        <activity
+            android:name=".PendingApprovalDetails"
             android:label="Approval Details"
+            android:screenOrientation="portrait" />
+        <activity android:name=".TakeRide"
+            android:label="Take Ride"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".OfferRide"
+            android:label="Offer Ride"
             android:screenOrientation="portrait"
             />
     </application>

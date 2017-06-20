@@ -3,6 +3,8 @@ package com.hackathon.gridlock.liftthyneighbour;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class PendingApprovalDetails extends Activity {
@@ -77,7 +79,39 @@ public class PendingApprovalDetails extends Activity {
         setContentView(R.layout.activity_pending_approval_details);
 
         displayPendingApprovalDetails();
+        setUpApproveButtonClickListener();
+        setUpRejectButtonClickListener();
     }
+
+    private void setUpApproveButtonClickListener() {
+        Button approveButton = (Button) findViewById(R.id.bApprove);
+        approveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendApprovalAPIrequest();
+            }
+        });
+    }
+
+    private void sendApprovalAPIrequest() {
+        //TODO send approval API request. Toast result
+    }
+
+    private void setUpRejectButtonClickListener() {
+        Button rejectButton = (Button) findViewById(R.id.bReject);
+        rejectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRejectionAPIrequest();
+            }
+        });
+    }
+
+
+    private void sendRejectionAPIrequest() {
+        //TODO send rejection API request. Toast result
+    }
+
 
     private void displayPendingApprovalDetails() {
         Intent i = getIntent();
@@ -101,5 +135,7 @@ public class PendingApprovalDetails extends Activity {
         TextView tvEmail = (TextView) findViewById(R.id.tvPAEmail);
         tvEmail.setText(getEmail());
     }
+
+
 
 }

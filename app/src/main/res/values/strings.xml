@@ -25,4 +25,8 @@
         <item>Pending Approvals</item>
         <item>Tenant List</item>
     </string-array>
+    <string-array name="user_ops_list_entries">
+        <item>Take Ride</item>
+        <item>Offer Ride</item>
+    </string-array>
 </resources>

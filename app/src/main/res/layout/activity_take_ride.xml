@@ -8,13 +8,11 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context="com.hackathon.gridlock.liftthyneighbour.UserHomeActivity">
+    tools:context="com.hackathon.gridlock.liftthyneighbour.TakeRide">
 
-    <ListView
-        android:id="@+id/lvUserOps"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:entries="@array/user_ops_list_entries"
-        />
+    <TextView
+        android:text="Take Ride"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
