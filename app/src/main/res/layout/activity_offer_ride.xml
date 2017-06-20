@@ -95,5 +95,67 @@
             android:onClick="showDatePickerDialog"
             />
 
+        <RadioGroup
+            android:id="@+id/rgOR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bORPickUpDate"
+            android:layout_marginTop="10dp"
+            >
+
+            <TextView
+                android:id="@+id/tvChooseDestinationType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Destination Type"
+                android:textSize="20sp"
+                />
+
+            <RadioButton
+                android:id="@+id/rbORTechPark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tech Park"
+                />
+            <RadioButton
+                android:id="@+id/rbORApartment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apartment"
+                />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvORSeatsLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Number of seats"
+            android:layout_below="@+id/rgOR"
+            />
+
+        <EditText
+            android:id="@+id/etORVacantSeats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvORSeatsLabel"
+            android:inputType="number"
+            />
+
+        <Button
+            android:id="@+id/bOfferRide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/offer_ride"
+            android:layout_below="@+id/etORVacantSeats"
+            android:textColor="#ffffff"
+            android:padding="10dp"
+            android:background="@drawable/mybutton"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:onClick="onOfferRideButtonClicked"
+            />
+
     </RelativeLayout>
 </ScrollView>

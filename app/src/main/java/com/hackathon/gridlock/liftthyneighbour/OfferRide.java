@@ -5,6 +5,8 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.hackathon.gridlock.liftthyneighbour.vos.TechPark;
@@ -24,6 +26,13 @@ public class OfferRide extends Activity {
 
 
         populateTechParkSpinner();
+        setDefaultSelectedRadioButton();
+    }
+
+    private void setDefaultSelectedRadioButton() {
+        RadioButton rb = (RadioButton) findViewById(R.id.rbORTechPark);
+        RadioGroup rg = (RadioGroup) findViewById(R.id.rgOR);
+        rg.check(rb.getId());
     }
 
     private void populateTechParkSpinner() {
@@ -65,5 +74,9 @@ public class OfferRide extends Activity {
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new OfferRideDatePickerFragment();
         newFragment.show(getFragmentManager(), DATE_PICKER_FRAGMENT_TAG);
+    }
+
+    public void onOfferRideButtonClicked() {
+        //TODO API Call to book ride and display toast 
     }
 }
