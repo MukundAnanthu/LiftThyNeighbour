@@ -6,10 +6,20 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.hackathon.gridlock.liftthyneighbour.util.RequestQueueProviderSingleton;
 import com.hackathon.gridlock.liftthyneighbour.vos.Apartment;
 
-import java.lang.reflect.Array;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -18,6 +28,8 @@ import java.util.ArrayList;
 * */
 public class SignUpActivity extends Activity {
 
+    private RequestQueue requestQueue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,9 +37,14 @@ public class SignUpActivity extends Activity {
 
         // Populate Apartment Spinner in form
         // TODO restructure population such that spinner is populated onSuccessResponse
-        ArrayList<Apartment> apartments = getApartmentList();
-        populateApartmentSpinnerInUI(apartments);
+        //ArrayList<Apartment> apartments = getApartmentList();
+        //populateApartmentSpinnerInUI(apartments);
 
+
+        // setup request queue for API hits
+        requestQueue = RequestQueueProviderSingleton.getRequestQueue(getApplicationContext());
+
+        populateApartmentSpinner();
 
         // Sign Up Button Click Listener
         Button signUpButton = (Button) findViewById(R.id.bSignUp);
@@ -37,6 +54,47 @@ public class SignUpActivity extends Activity {
                 makeSignUpAPICall();
             }
         });
+    }
+
+    private void populateApartmentSpinner() {
+        final Toast errorToast = Toast.makeText(getApplicationContext(),"Failed to fetch Apartment List",Toast.LENGTH_LONG);
+
+        if (requestQueue != null) {
+            String baseUrl = getString(R.string.BASE_URL);
+            String targetUrl = baseUrl + "/api/getApartmentList";
+
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest(
+                    Request.Method.POST, targetUrl, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (response != null ) {
+                                    Gson gson = new Gson();
+                                    Apartment[] apartmentList = gson.fromJson(response.getJSONArray("apartmentList").toString(), Apartment[].class );
+                                    ArrayList<Apartment> apartments = new ArrayList<Apartment>();
+                                    int numApartments = apartmentList.length;
+                                    for (int i = 0; i < numApartments; i++ ) {
+                                        apartments.add(apartmentList[i]);
+                                    }
+                                    populateApartmentSpinnerInUI(apartments);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorToast.show();
+                        }
+                    }
+            );
+
+            jsObjRequest.setShouldCache(false);
+            requestQueue.add(jsObjRequest);
+        }
     }
 
 
