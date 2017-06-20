@@ -11,8 +11,83 @@
     tools:context="com.hackathon.gridlock.liftthyneighbour.OfferRide">
 
 
-    <TextView
-        android:text="Offer Ride"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:id="@+id/tvORTechParkLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Tech Park"
+            android:textSize="20sp"
+            />
+
+        <Spinner
+            android:id="@+id/spinnerTechPark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvORTechParkLabel"
+            android:layout_marginTop="5dp"
+            />
+
+
+        <TextView
+            android:id="@+id/tvORPickUpTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick Up Time"
+            android:textSize="20sp"
+            android:layout_below="@+id/spinnerTechPark"
+            android:layout_marginTop="5dp"
+            />
+
+        <EditText
+            android:id="@+id/etORPickUpTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvORPickUpTime"
+            />
+
+        <Button
+            android:id="@+id/bORPickUpTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etORPickUpTime"
+            android:text="Pick Up Time"
+            android:background="@drawable/mybutton"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/tvORPickUPDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick Up Date"
+            android:textSize="20sp"
+            android:layout_below="@+id/bORPickUpTime"
+            />
+
+        <EditText
+            android:id="@+id/etORPickUpDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvORPickUPDate"
+            />
+
+        <Button
+            android:id="@+id/bORPickUpDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etORPickUpDate"
+            android:text="Pick Up Date"
+            android:background="@drawable/mybutton"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            />
+
+
 </RelativeLayout>
