@@ -36,12 +36,6 @@ public class SignUpActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        // Populate Apartment Spinner in form
-        // TODO restructure population such that spinner is populated onSuccessResponse
-        //ArrayList<Apartment> apartments = getApartmentList();
-        //populateApartmentSpinnerInUI(apartments);
-
-
         // setup request queue for API hits
         requestQueue = RequestQueueProviderSingleton.getRequestQueue(getApplicationContext());
 
@@ -118,18 +112,5 @@ public class SignUpActivity extends Activity {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,apartmentNames);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         apartmentSpinner.setAdapter(spinnerAdapter);
-    }
-
-    private ArrayList<Apartment> getApartmentList() {
-
-        // Dummy data
-        ArrayList<Apartment> apartments = new ArrayList<Apartment>();
-        Apartment one = new Apartment(1,"A");
-        Apartment two = new Apartment(2, "B");
-        apartments.add(one);
-        apartments.add(two);
-        return apartments;
-
-        //TODO Verify if API hit works
     }
 }
