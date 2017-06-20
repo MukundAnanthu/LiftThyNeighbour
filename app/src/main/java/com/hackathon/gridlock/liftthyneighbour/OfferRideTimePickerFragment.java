@@ -37,7 +37,14 @@ public class OfferRideTimePickerFragment extends DialogFragment
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
         EditText pickUpTimeEt = (EditText) getActivity().findViewById(R.id.etORPickUpTime);
-        String timeChosen = Integer.toString(hourOfDay) + ":" + Integer.toString(minute);
+        String timeChosen = "";
+
+        if (minute < 10) {
+            timeChosen = Integer.toString(hourOfDay) + ":" + "0"+ Integer.toString(minute);
+        }
+        else {
+            timeChosen = Integer.toString(hourOfDay) + ":" + Integer.toString(minute);
+        }
         pickUpTimeEt.setText(timeChosen);
     }
 }
