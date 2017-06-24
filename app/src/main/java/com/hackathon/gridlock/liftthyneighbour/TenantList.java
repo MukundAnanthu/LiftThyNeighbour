@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,21 +13,34 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.hackathon.gridlock.liftthyneighbour.util.RequestQueueProviderSingleton;
 import com.hackathon.gridlock.liftthyneighbour.vos.Tenant;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
-//TODO Optional: make list searchable
+
 public class TenantList extends Activity {
 
-
+    private RequestQueue requestQueue;
     private ArrayList<Tenant> tenants;
 
     @Override
@@ -34,23 +48,77 @@ public class TenantList extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tenant_list);
 
+        // setup request queue for API hits
+        requestQueue = RequestQueueProviderSingleton.getRequestQueue(getApplicationContext());
+
+
         //populate List with Tenant info
         populateTenantList();
     }
 
     private void populateTenantList() {
         String token = getAdminToken();
-        //TODO decide if userId is also required
-        //TODO API call to getTenantList
+        int userId = getUserId();
+        final Toast errorToast = Toast.makeText(getApplicationContext(), "Failed to fetch tenant list...", Toast.LENGTH_LONG);
 
-        //dummy data
-        Tenant one = new Tenant(1, "anil","a1","ka",123,"sdf@gmail.com");
-        Tenant two = new Tenant(2, "banu","b2","tn",456,"abc@gmail.com");
-        tenants = new ArrayList<Tenant>();
-        tenants.add(one);
-        tenants.add(two);
+        if (userId == -1 ) {
+            Log.e("Populate Tenant List", "No user Id found in shared preferences file");
+            return;
+        }
 
-        populateList(tenants);
+        if (requestQueue != null) {
+            String baseUrl = getResources().getString(R.string.BASE_URL);
+            String targetUrl = baseUrl + getResources().getString(R.string.API_GET_TENANTS);
+            HashMap<String, Object> requestBody = new HashMap<String, Object>();
+            requestBody.put("userId",userId);
+            requestBody.put("token",token);
+
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, targetUrl, new JSONObject(requestBody), new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            try {
+                                if (response != null ) {
+                                    Gson gson = new Gson();
+                                    Tenant[] tenantArray = gson.fromJson(response.getJSONArray("tenantList").toString(), Tenant[].class);
+                                    ArrayList<Tenant> tenants = new ArrayList<Tenant>();
+                                    int numTenants = tenantArray.length;
+                                    for (int i = 0; i < numTenants; i++ ) {
+                                        tenants.add(tenantArray[i]);
+                                    }
+                                    populateList(tenants);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                errorToast.show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorToast.show();
+                        }
+                    }){
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type","application/json");
+                    return headers;
+                }
+            };
+            jsObjRequest.setShouldCache(false);
+            requestQueue.add(jsObjRequest);
+        }
+    }
+
+    private int getUserId() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String userIdKey = getResources().getString(R.string.KEY_USER_ID);
+        return sharedPreferences.getInt(userIdKey,-1);
     }
 
 
@@ -58,6 +126,8 @@ public class TenantList extends Activity {
     private void populateList(ArrayList<Tenant> tenants) {
         ListView tenantList = (ListView) findViewById(R.id.lvTenantList);
         ArrayList<String> tenantListItem = new ArrayList<String>();
+
+        this.tenants = tenants;
 
         for (Tenant tenant: tenants) {
             String toDisplay = tenant.getUserName()+" (" + tenant.getFlatNumber() + " )";
