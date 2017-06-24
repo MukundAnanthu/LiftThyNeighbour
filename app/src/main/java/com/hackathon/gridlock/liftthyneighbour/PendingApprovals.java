@@ -5,21 +5,37 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.hackathon.gridlock.liftthyneighbour.util.RequestQueueProviderSingleton;
 import com.hackathon.gridlock.liftthyneighbour.vos.Tenant;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PendingApprovals extends Activity {
 
+    private RequestQueue requestQueue;
     private ArrayList<Tenant> pendingApprovals;
 
     @Override
@@ -27,24 +43,88 @@ public class PendingApprovals extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_approvals);
 
+        // setup request queue for API hits
+        requestQueue = RequestQueueProviderSingleton.getRequestQueue(getApplicationContext());
 
         populatePendingApprovalsList();
     }
 
     private void populatePendingApprovalsList() {
         String token = getAdminToken();
+        int userId = getUserId();
+
+        final Toast errorToast = Toast.makeText(getApplicationContext(), "Failed to fetch pending approval list", Toast.LENGTH_LONG);
+
+        if (userId == -1 ) {
+            Log.e("Pending Approval List", "No user Id found in shared preferences file");
+            return;
+        }
+
+        if (requestQueue != null) {
+            String baseUrl = getResources().getString(R.string.BASE_URL);
+            String targetUrl = baseUrl + getResources().getString(R.string.API_GET_PENDING_APPROVALS);
+            HashMap<String, Object> requestBody = new HashMap<String, Object>();
+            requestBody.put("userId",userId);
+            requestBody.put("token",token);
+
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, targetUrl, new JSONObject(requestBody), new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            try {
+                                if (response != null ) {
+                                    Gson gson = new Gson();
+                                    Tenant[] pendingListArray = gson.fromJson(response.getJSONArray("pendingList").toString(), Tenant[].class);
+                                    ArrayList<Tenant> pendingTenants = new ArrayList<Tenant>();
+                                    int numTenants = pendingListArray.length;
+                                    for (int i = 0; i < numTenants; i++ ) {
+                                        pendingTenants.add(pendingListArray[i]);
+                                    }
+                                    populateList(pendingTenants);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                errorToast.show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorToast.show();
+                        }
+                    }){
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type","application/json");
+                    return headers;
+                }
+            };
+            jsObjRequest.setShouldCache(false);
+            requestQueue.add(jsObjRequest);
+        }
+
         //TODO decide if userId is also required
         //TODO API call to getTenantList
         // TODO decide if it's fine for response to be ArrayList<Tenant>
-
         //dummy data
-        Tenant one = new Tenant(1, "newAnil","a11","kaa",1233,"sdff@gmail.com");
-        Tenant two = new Tenant(2, "newBanu","b22","tnn",4566,"abcc@gmail.com");
-        pendingApprovals = new ArrayList<Tenant>();
-        pendingApprovals.add(one);
-        pendingApprovals.add(two);
+        //Tenant one = new Tenant(1, "newAnil","a11","kaa",1233,"sdff@gmail.com");
+        //Tenant two = new Tenant(2, "newBanu","b22","tnn",4566,"abcc@gmail.com");
+        //pendingApprovals = new ArrayList<Tenant>();
+        //pendingApprovals.add(one);
+        //pendingApprovals.add(two);
+        //populateList(pendingApprovals);
+    }
 
-        populateList(pendingApprovals);
+
+    private int getUserId() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String userIdKey = getResources().getString(R.string.KEY_USER_ID);
+        return sharedPreferences.getInt(userIdKey,-1);
     }
 
 
@@ -52,6 +132,8 @@ public class PendingApprovals extends Activity {
     private void populateList(ArrayList<Tenant> tenants) {
         ListView pendingList = (ListView) findViewById(R.id.lvPendingList);
         ArrayList<String> pendingListItem = new ArrayList<String>();
+
+        this.pendingApprovals = tenants;
 
         for (Tenant tenant: tenants) {
             String toDisplay = tenant.getUserName()+" (" + tenant.getFlatNumber() + " )";
