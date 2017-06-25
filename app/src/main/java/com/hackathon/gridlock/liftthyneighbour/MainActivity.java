@@ -117,6 +117,8 @@ public class MainActivity extends Activity {
                                 if (authenticationStatus.equals("SUCCESS")) {
                                     setTokenAndUserType(response.getString("token"), userType);
                                     setUserId(response.getInt("userId"));
+                                    updateSignedInSharedPreference();
+                                    updateIsAdminSharedPreference(true);
                                     redirectToAdminHomePage();
                                 }
                                 else {
@@ -176,6 +178,8 @@ public class MainActivity extends Activity {
                                 if (authenticationStatus.equals("SUCCESS")) {
                                     setTokenAndUserType(response.getString("token"), userType);
                                     setUserId(response.getInt("userId"));
+                                    updateSignedInSharedPreference();
+                                    updateIsAdminSharedPreference(false);
                                     redirectToUserHomePage();
                                 }
                                 else {
@@ -203,6 +207,18 @@ public class MainActivity extends Activity {
             jsObjRequest.setShouldCache(false);
             requestQueue.add(jsObjRequest);
         }
+    }
+
+    private void updateIsAdminSharedPreference(boolean isAdmin) {
+        String isUserAdminKey = getResources().getString(R.string.KEY_IS_USER_ADMIN);
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (isAdmin) {
+            editor.putBoolean(isUserAdminKey, true);
+        } else {
+            editor.putBoolean(isUserAdminKey, false);
+        }
+        editor.commit();
     }
 
     private boolean isUserAdmin() {
@@ -235,6 +251,14 @@ public class MainActivity extends Activity {
     private void redirectToUserHomePage() {
         Intent i = new Intent(this, UserHomeActivity.class);
         startActivity(i);
+    }
+
+    private void updateSignedInSharedPreference() {
+        String isUserSignedKey = getResources().getString(R.string.KEY_IS_USER_SIGNED);
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(isUserSignedKey, true);
+        editor.commit();
     }
 
 }
