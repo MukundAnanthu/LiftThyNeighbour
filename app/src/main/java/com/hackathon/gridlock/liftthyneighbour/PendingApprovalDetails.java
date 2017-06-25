@@ -133,7 +133,7 @@ public class PendingApprovalDetails extends Activity {
 
 
         final Toast errorToast = Toast.makeText(getApplicationContext(), "Failed to approve", Toast.LENGTH_LONG);
-        final Toast successToast = Toast.makeText(getApplicationContext(), "Approval Successful", Toast.LENGTH_LONG);
+        final Toast successToast = Toast.makeText(getApplicationContext(), "Operation Successful", Toast.LENGTH_LONG);
 
         if (requestQueue != null ) {
             String baseUrl = getResources().getString(R.string.BASE_URL);
