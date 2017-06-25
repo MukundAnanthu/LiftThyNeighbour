@@ -5,11 +5,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.hackathon.gridlock.liftthyneighbour.util.RequestQueueProviderSingleton;
+import com.hackathon.gridlock.liftthyneighbour.vos.Tenant;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PendingApprovalDetails extends Activity {
 
@@ -27,6 +46,8 @@ public class PendingApprovalDetails extends Activity {
     private String vehicleNumber;
     private long contactNumber;
     private String email;
+
+    private RequestQueue requestQueue;
 
 
     public int getUserId() {
@@ -82,6 +103,9 @@ public class PendingApprovalDetails extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_approval_details);
 
+        // setup request queue for API hits
+        requestQueue = RequestQueueProviderSingleton.getRequestQueue(getApplicationContext());
+
         displayPendingApprovalDetails();
         setUpApproveButtonClickListener();
         setUpRejectButtonClickListener();
@@ -98,7 +122,82 @@ public class PendingApprovalDetails extends Activity {
     }
 
     private void sendApprovalAPIrequest() {
+        int userIdToApprove = getUserId();
+        int adminUserId = getAdminUserId();
+        String token = getAdminToken();
+
+        if (adminUserId == -1 ) {
+            Log.e("Approval", "No admin user Id found in shared preferences file");
+            return;
+        }
+
+
+        final Toast errorToast = Toast.makeText(getApplicationContext(), "Failed to approve", Toast.LENGTH_LONG);
+        final Toast successToast = Toast.makeText(getApplicationContext(), "Approval Successful", Toast.LENGTH_LONG);
+
+        if (requestQueue != null ) {
+            String baseUrl = getResources().getString(R.string.BASE_URL);
+            String targetUrl = baseUrl + getResources().getString(R.string.API_APPROVAL);
+            HashMap<String, Object> requestBody = new HashMap<String, Object>();
+            requestBody.put("userId",adminUserId);
+            requestBody.put("token", token);
+            requestBody.put("userIdToApprove",userIdToApprove);
+            requestBody.put("approved","yes");
+
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, targetUrl, new JSONObject(requestBody), new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            try {
+                                if (response != null ) {
+                                    String responseMessage = response.getString("message");
+                                    Log.i("ResponseMessage: ", responseMessage);
+                                    if (responseMessage.equals("Operation completed successfully")) {
+                                        successToast.show();
+                                    }
+                                    else {
+                                        errorToast.show();
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                errorToast.show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorToast.show();
+                        }
+                    }){
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type","application/json");
+                    return headers;
+                }
+            };
+            jsObjRequest.setShouldCache(false);
+            requestQueue.add(jsObjRequest);
+
+        }
         //TODO send approval API request. Toast result
+    }
+
+    private int getAdminUserId() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String userIdKey = getResources().getString(R.string.KEY_USER_ID);
+        return sharedPreferences.getInt(userIdKey,-1);
+    }
+
+    private String getAdminToken() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String tokenKey = getResources().getString(R.string.KEY_TOKEN);
+        return sharedPreferences.getString(tokenKey, "");
     }
 
     private void setUpRejectButtonClickListener() {

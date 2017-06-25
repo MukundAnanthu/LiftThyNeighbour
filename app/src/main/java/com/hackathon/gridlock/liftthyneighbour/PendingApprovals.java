@@ -107,17 +107,6 @@ public class PendingApprovals extends Activity {
             jsObjRequest.setShouldCache(false);
             requestQueue.add(jsObjRequest);
         }
-
-        //TODO decide if userId is also required
-        //TODO API call to getTenantList
-        // TODO decide if it's fine for response to be ArrayList<Tenant>
-        //dummy data
-        //Tenant one = new Tenant(1, "newAnil","a11","kaa",1233,"sdff@gmail.com");
-        //Tenant two = new Tenant(2, "newBanu","b22","tnn",4566,"abcc@gmail.com");
-        //pendingApprovals = new ArrayList<Tenant>();
-        //pendingApprovals.add(one);
-        //pendingApprovals.add(two);
-        //populateList(pendingApprovals);
     }
 
 
