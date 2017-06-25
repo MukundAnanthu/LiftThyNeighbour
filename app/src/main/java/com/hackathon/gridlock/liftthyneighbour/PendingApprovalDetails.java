@@ -156,7 +156,7 @@ public class PendingApprovalDetails extends Activity {
                                     Log.i("ResponseMessage: ", responseMessage);
                                     if (responseMessage.equals("Operation completed successfully")) {
                                         successToast.show();
-                                        switchToPendingApprovalsActivity();
+                                        switchToAdminHomeActivity();
                                     }
                                     else {
                                         errorToast.show();
@@ -246,7 +246,7 @@ public class PendingApprovalDetails extends Activity {
                                     Log.i("ResponseMessage: ", responseMessage);
                                     if (responseMessage.equals("Operation completed successfully")) {
                                         successToast.show();
-                                        switchToPendingApprovalsActivity();
+                                        switchToAdminHomeActivity();
                                     }
                                     else {
                                         errorToast.show();
@@ -345,8 +345,8 @@ public class PendingApprovalDetails extends Activity {
         finish();
     }
 
-    private void switchToPendingApprovalsActivity() {
-        Intent i = new Intent(this, PendingApprovals.class);
+    private void switchToAdminHomeActivity() {
+        Intent i = new Intent(this, AdminHomeActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_CLEAR_TASK |
                 Intent.FLAG_ACTIVITY_NEW_TASK);
