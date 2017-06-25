@@ -132,7 +132,7 @@ public class PendingApprovalDetails extends Activity {
         }
 
 
-        final Toast errorToast = Toast.makeText(getApplicationContext(), "Failed to approve", Toast.LENGTH_LONG);
+        final Toast errorToast = Toast.makeText(getApplicationContext(), "Operation Failed", Toast.LENGTH_LONG);
         final Toast successToast = Toast.makeText(getApplicationContext(), "Operation Successful", Toast.LENGTH_LONG);
 
         if (requestQueue != null ) {
@@ -186,7 +186,6 @@ public class PendingApprovalDetails extends Activity {
             requestQueue.add(jsObjRequest);
 
         }
-        //TODO send approval API request. Toast result
     }
 
     private int getAdminUserId() {
@@ -213,6 +212,72 @@ public class PendingApprovalDetails extends Activity {
 
 
     private void sendRejectionAPIrequest() {
+        int userIdToApprove = getUserId();
+        int adminUserId = getAdminUserId();
+        String token = getAdminToken();
+
+        if (adminUserId == -1 ) {
+            Log.e("Rejection", "No admin user Id found in shared preferences file");
+            return;
+        }
+
+
+        final Toast errorToast = Toast.makeText(getApplicationContext(), "Operation Failed", Toast.LENGTH_LONG);
+        final Toast successToast = Toast.makeText(getApplicationContext(), "Operation Successful", Toast.LENGTH_LONG);
+
+        if (requestQueue != null ) {
+            String baseUrl = getResources().getString(R.string.BASE_URL);
+            String targetUrl = baseUrl + getResources().getString(R.string.API_APPROVAL);
+            HashMap<String, Object> requestBody = new HashMap<String, Object>();
+            requestBody.put("userId",adminUserId);
+            requestBody.put("token", token);
+            requestBody.put("userIdToApprove",userIdToApprove);
+            requestBody.put("approved","no");
+
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, targetUrl, new JSONObject(requestBody), new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            try {
+                                if (response != null ) {
+                                    String responseMessage = response.getString("message");
+                                    Log.i("ResponseMessage: ", responseMessage);
+                                    if (responseMessage.equals("Operation completed successfully")) {
+                                        successToast.show();
+                                        switchToPendingApprovalsActivity();
+                                    }
+                                    else {
+                                        errorToast.show();
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                errorToast.show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorToast.show();
+                        }
+                    }){
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type","application/json");
+                    return headers;
+                }
+            };
+            jsObjRequest.setShouldCache(false);
+            requestQueue.add(jsObjRequest);
+
+        }
+
+
         //TODO send rejection API request. Toast result
     }
 
