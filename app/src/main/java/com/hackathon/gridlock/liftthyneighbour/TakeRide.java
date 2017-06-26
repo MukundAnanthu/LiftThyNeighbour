@@ -56,10 +56,6 @@ public class TakeRide extends Activity {
         rg.check(rb.getId());
     }
 
-    public void onTakeRideButtonClicked() {
-        //TODO make rest call to book ride
-    }
-
     private void populateTechParkSpinner() {
         final Toast errorToast = Toast.makeText(getApplicationContext(),"Failed to fetch Tech Park List",Toast.LENGTH_LONG);
 
@@ -99,16 +95,6 @@ public class TakeRide extends Activity {
             jsObjRequest.setShouldCache(false);
             requestQueue.add(jsObjRequest);
         }
-
-        //TODO API call to get list of Tech Parks
-        //dummy data
-        //TechPark one = new TechPark(1, "Bagmane");
-        //TechPark two = new TechPark(2, "RMZ");
-        //ArrayList<TechPark> techParks = new ArrayList<TechPark>();
-        //techParks.add(one);
-        //techParks.add(two);
-        //to be called from within onResponse
-        //populateSpinner(techParks);
     }
 
     // Populates the tech park spinner with data

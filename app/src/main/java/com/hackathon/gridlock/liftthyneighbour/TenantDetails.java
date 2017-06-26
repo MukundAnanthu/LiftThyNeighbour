@@ -10,6 +10,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.hackathon.gridlock.liftthyneighbour.util.RequestQueueProviderSingleton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class TenantDetails extends Activity {
@@ -29,6 +45,7 @@ public class TenantDetails extends Activity {
     private long contactNumber;
     private String email;
 
+    private RequestQueue requestQueue;
 
     public int getUserId() {
         return userId;
@@ -83,6 +100,10 @@ public class TenantDetails extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tenant_details);
 
+
+        // setup request queue for API hits
+        requestQueue = RequestQueueProviderSingleton.getRequestQueue(getApplicationContext());
+
         displayTenantDetails();
         setUpDeregisterButtonClickListener();
     }
@@ -99,7 +120,78 @@ public class TenantDetails extends Activity {
 
 
     private void deregisterTenant() {
-        //TODO make API call to delete tenant display toast for result
+        final Toast errorToast = Toast.makeText(getApplicationContext(), "Failed to deregister tenant.",Toast.LENGTH_LONG);
+        final Toast successToast = Toast.makeText(getApplicationContext(), "Deregistration successful.", Toast.LENGTH_LONG);
+        int adminUserId = getAdminUserId();
+        String token = getAdminToken();
+
+        if (requestQueue != null ) {
+            String baseUrl = getResources().getString(R.string.BASE_URL);
+            String targetUrl = baseUrl + getResources().getString(R.string.API_DELETE_USER);
+            HashMap<String, Object> requestBody = new HashMap<String, Object>();
+            requestBody.put("userId",adminUserId);
+            requestBody.put("token",token);
+            requestBody.put("userIdToDelete",getUserId());
+
+
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, targetUrl, new JSONObject(requestBody), new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                String deletionStatus = response.getString("result");
+                                if (deletionStatus.equals("SUCCESS")) {
+                                    successToast.show();
+                                    switchToAdminHomeActivity();
+                                }
+                                else {
+                                    errorToast.show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorToast.show();
+                        }
+                    }){
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type","application/json");
+                    return headers;
+                }
+            };
+            jsObjRequest.setShouldCache(false);
+            requestQueue.add(jsObjRequest);
+            
+        }
+    }
+
+    private int getAdminUserId() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String userIdKey = getResources().getString(R.string.KEY_USER_ID);
+        return sharedPreferences.getInt(userIdKey,-1);
+    }
+
+    private String getAdminToken() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String tokenKey = getResources().getString(R.string.KEY_TOKEN);
+        return sharedPreferences.getString(tokenKey, "");
+    }
+
+    private void switchToAdminHomeActivity() {
+        Intent i = new Intent(this, AdminHomeActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        finish();
     }
 
     private void displayTenantDetails() {
