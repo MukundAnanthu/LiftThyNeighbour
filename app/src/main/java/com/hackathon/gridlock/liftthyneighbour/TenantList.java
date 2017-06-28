@@ -59,7 +59,7 @@ public class TenantList extends Activity {
     private void populateTenantList() {
         String token = getAdminToken();
         int userId = getUserId();
-        final Toast errorToast = Toast.makeText(getApplicationContext(), "Failed to fetch tenant list...", Toast.LENGTH_LONG);
+        final Toast errorToast = Toast.makeText(getApplicationContext(), "Failed to fetch tenant list. Check Internet Connectivity.", Toast.LENGTH_LONG);
 
         if (userId == -1 ) {
             Log.e("Populate Tenant List", "No user Id found in shared preferences file");

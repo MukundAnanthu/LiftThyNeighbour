@@ -56,7 +56,7 @@ public class SignUpActivity extends Activity {
     }
 
     private void populateApartmentSpinner() {
-        final Toast errorToast = Toast.makeText(getApplicationContext(),"Failed to fetch Apartment List",Toast.LENGTH_LONG);
+        final Toast errorToast = Toast.makeText(getApplicationContext(),"Failed to fetch Apartment List. Check Internet Connectivity.",Toast.LENGTH_LONG);
 
         if (requestQueue != null) {
             String baseUrl = getString(R.string.BASE_URL);

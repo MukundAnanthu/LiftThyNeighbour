@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -27,7 +29,12 @@ import com.hackathon.gridlock.liftthyneighbour.vos.TechPark;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class OfferRide extends Activity {
 
@@ -36,7 +43,7 @@ public class OfferRide extends Activity {
     private final String DATE_PICKER_FRAGMENT_TAG = "com.hackathon.gridlock.liftthyneighbour.OfferRide_date";
     private RequestQueue requestQueue;
 
-
+    private static final String DATE_TIME_FORMAT = "yyyyMMddHHmm";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +67,7 @@ public class OfferRide extends Activity {
 
 
     private void populateTechParkSpinner() {
-        final Toast errorToast = Toast.makeText(getApplicationContext(),"Failed to fetch Tech Park List",Toast.LENGTH_LONG);
+        final Toast errorToast = Toast.makeText(getApplicationContext(),"Failed to fetch Tech Park List. Check Internet Connectivity.",Toast.LENGTH_LONG);
 
 
         if (requestQueue != null) {
@@ -128,7 +135,120 @@ public class OfferRide extends Activity {
     }
 
     public void onOfferRideButtonClicked(View v) {
+        int techParkId = getTechParkId();
+        if (techParkId == -1  ) {
+            Toast.makeText(getApplicationContext(), "Error choosing tech park. Try again.", Toast.LENGTH_LONG).show();
+            redirectToUserHomeActivity();
+            return;
+        }
+
+        String pickUpTimeInSecsUTC = getPickUpTime();
+        int sourceType = getSourceType();
+        int numSeats = getNumSeats();
+
         //TODO API Call to book ride and display toast
+    }
+
+    private int getNumSeats() {
+        EditText etNumSeats = (EditText) findViewById(R.id.etORVacantSeats);
+        return Integer.parseInt(etNumSeats.getText().toString());
+    }
+
+    private int getSourceType() {
+        RadioGroup destinationTypeRg = (RadioGroup) findViewById(R.id.rgOR);
+        String radioButtonText = ((RadioButton) findViewById(destinationTypeRg.getCheckedRadioButtonId())).getText().toString();
+        int sourceType = 0;
+        if (radioButtonText.equals("Tech Park")) {
+            sourceType = 1;
+        }
+        else {
+            sourceType = 0;
+        }
+        return sourceType;
+    }
+
+    private String getPickUpTime() {
+
+        // Retrieve time info from edittext
+        EditText etPickUpTime = (EditText) findViewById(R.id.etORPickUpTime);
+        String rawTimeString = etPickUpTime.getText().toString();
+
+        //sanity checks
+        if (rawTimeString == null || rawTimeString.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Enter Pick up time", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+
+        String[] timeParts = rawTimeString.split(":");
+        if (timeParts.length != 2) {
+            Log.e("OfferRide ", "Error retrieving pickUpTimeDate");
+            return null;
+        }
+
+
+        // Retrieve date from edittext
+        EditText etPickUpDate = (EditText) findViewById(R.id.etORPickUpDate);
+        String rawDateString = etPickUpDate.getText().toString();
+
+        //sanity checks
+        if (rawDateString == null || rawDateString.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Enter Pick up time", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        String[] dateParts = rawDateString.split("-");
+        if (dateParts.length != 3) {
+            Log.e("OfferRide ", "Error retrieving pickUpDate");
+            return null;
+        }
+
+        if( Integer.parseInt(dateParts[0]) < 10 ) {
+            dateParts[0] = "0" + dateParts[0];
+        }
+        if ( Integer.parseInt(dateParts[1]) < 10) {
+            dateParts[1] = "0" + dateParts[1];
+        }
+
+        if (Integer.parseInt(timeParts[0]) < 10 ) {
+            timeParts[0] = "0" + timeParts[0];
+        }
+        if (Integer.parseInt(timeParts[1]) < 10 ) {
+            timeParts[1] = "0" + timeParts[1];
+        }
+
+        String dateTime = dateParts[2] + dateParts[1] + dateParts[0]
+                + timeParts[0] + timeParts[1];
+
+        DateFormat df = new SimpleDateFormat(DATE_TIME_FORMAT);
+        df.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+        try {
+            Date date = df.parse(dateTime);
+            long secs = (date.getTime() / 1000 );
+            return Long.toString(secs);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+
+    private void redirectToUserHomeActivity() {
+        Intent i = new Intent(this, UserHomeActivity.class);
+        startActivity(i);
+    }
+
+    private int getTechParkId() {
+        Spinner techParkSpinner = (Spinner) findViewById(R.id.spinnerTechPark);
+        int position = techParkSpinner.getSelectedItemPosition();
+        if (techParks == null) {
+            return -1;
+        }
+        else {
+            return techParks.get(position).getId();
+        }
     }
 
     @Override
