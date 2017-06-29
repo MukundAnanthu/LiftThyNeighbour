@@ -7,48 +7,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
-import java.util.List;
-
-public class UserHomeActivity extends Activity {
+public class FutureRidesTaken extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_home);
-
-        ListView userOpsListView = (ListView) findViewById(R.id.lvUserOps);
-        userOpsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switchToOp(position);
-            }
-        });
-    }
-
-    private void switchToOp(int position) {
-        switch (position) {
-            case 0:
-                Intent takeRideIntent = new Intent(this, TakeRide.class);
-                startActivity(takeRideIntent);
-                break;
-            case 1:
-                Intent offerRideIntent = new Intent(this, OfferRide.class);
-                startActivity(offerRideIntent);
-                break;
-            case 2:
-                Intent futureRidesOffered = new Intent(this, FutureRidesOffered.class);
-                startActivity(futureRidesOffered);
-                break;
-            case 3:
-                Intent futureRidesTaken = new Intent(this, FutureRidesTaken.class);
-                startActivity(futureRidesTaken);
-                break;
-
-        }
+        setContentView(R.layout.activity_future_rides_taken);
     }
 
     @Override
@@ -66,7 +31,7 @@ public class UserHomeActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     private void logout() {
         purgeCredentials();
         redirectToSignInPage();

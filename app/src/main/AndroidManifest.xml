@@ -48,12 +48,21 @@
             android:name=".PendingApprovalDetails"
             android:label="Approval Details"
             android:screenOrientation="portrait" />
-        <activity android:name=".TakeRide"
+        <activity
+            android:name=".TakeRide"
             android:label="Take Ride"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OfferRide"
+            android:label="Offer Ride"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FutureRidesOffered"
+            android:label="Future Rides Offered"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".OfferRide"
-            android:label="Offer Ride"
+        <activity android:name=".FutureRidesTaken"
+            android:label="Future Rides Taken"
             android:screenOrientation="portrait"
             />
     </application>
