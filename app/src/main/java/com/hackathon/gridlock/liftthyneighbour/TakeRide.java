@@ -67,7 +67,7 @@ public class TakeRide extends Activity {
     }
 
     private void populateTechParkSpinner() {
-        final Toast errorToast = Toast.makeText(getApplicationContext(),"Failed to fetch Tech Park List. Check Internet connectivity.",Toast.LENGTH_LONG);
+        final Toast errorToast = Toast.makeText(getApplicationContext(),"Couldn't fetch Tech Park List. Check Internet connectivity.",Toast.LENGTH_LONG);
 
         if (requestQueue != null) {
             String baseUrl = getString(R.string.BASE_URL);

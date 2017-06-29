@@ -67,7 +67,7 @@ public class OfferRide extends Activity {
 
 
     private void populateTechParkSpinner() {
-        final Toast errorToast = Toast.makeText(getApplicationContext(),"Failed to fetch Tech Park List. Check Internet Connectivity.",Toast.LENGTH_LONG);
+        final Toast errorToast = Toast.makeText(getApplicationContext(),"Couldn't Tech Park List. Check Internet connectivity.",Toast.LENGTH_LONG);
 
 
         if (requestQueue != null) {

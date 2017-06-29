@@ -5,18 +5,170 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.hackathon.gridlock.liftthyneighbour.util.RequestQueueProviderSingleton;
+import com.hackathon.gridlock.liftthyneighbour.vos.Ride;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FutureRidesTaken extends Activity {
+
+    private RequestQueue requestQueue;
+    private ArrayList<Ride> rides;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_future_rides_taken);
+
+        // setup request queue for API hits
+        requestQueue = RequestQueueProviderSingleton.getRequestQueue(getApplicationContext());
+
+        populateFutureRidesList();
     }
 
-    @Override
+    private void populateFutureRidesList() {
+        String token = getUserToken();
+        int userId = getUserId();
+
+        final Toast errorToast = Toast.makeText(getApplicationContext(), "Couldn't fetch future rides list. Check Internet connectivity.", Toast.LENGTH_LONG);
+
+        if (userId == -1 ) {
+            Log.e("Future Rides Taken: ", "No user Id found in shared preferences file");
+            return;
+        }
+
+        if (requestQueue != null) {
+            String baseUrl = getResources().getString(R.string.BASE_URL);
+            String targetUrl = baseUrl + getResources().getString(R.string.API_GET_FUTURE_RIDES_TAKEN);
+            HashMap<String, Object> requestBody = new HashMap<String, Object>();
+            requestBody.put("userId",userId);
+            requestBody.put("token",token);
+
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, targetUrl, new JSONObject(requestBody), new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            try {
+                                if (response != null ) {
+                                    Gson gson = new Gson();
+                                    Ride[] rideArray = gson.fromJson(response.getJSONArray("rideList").toString(), Ride[].class);
+                                    ArrayList<Ride> rides = new ArrayList<Ride>();
+                                    int numRides = rideArray.length;
+                                    for (int i = 0; i < numRides; i++ ) {
+                                        rides.add(rideArray[i]);
+                                    }
+                                    populateList(rides);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                errorToast.show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorToast.show();
+                        }
+                    }){
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type","application/json");
+                    return headers;
+                }
+            };
+            jsObjRequest.setShouldCache(false);
+            requestQueue.add(jsObjRequest);
+        }
+    }
+
+    private void populateList(ArrayList<Ride> rides) {
+        ListView ridesList = (ListView) findViewById(R.id.lvFutureRidesTaken);
+        ArrayList<String> rideListItem = new ArrayList<String>();
+
+        this.rides = rides;
+
+        for (Ride ride : rides) {
+            String toDisplay = null;//TODO = ride.getUserName()+" (" + tenant.getFlatNumber() + " )";
+            rideListItem.add(toDisplay);
+        }
+
+        // Populate the listView
+        ArrayAdapter<String> rideListAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                rideListItem
+        );
+
+        ridesList.setAdapter(rideListAdapter);
+
+
+        //set listener
+        ridesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showRideDetails(position);
+            }
+        });
+    }
+
+
+    private void showRideDetails(int position) {
+        //TODO
+        /*private void showTenantDetails(int position) {
+            Tenant tenantSelected = tenants.get(position);
+            Intent i = new Intent(this, TenantDetails.class);
+            i.putExtra(TenantDetails.KEY_USER_ID,tenantSelected.getUserId());
+            i.putExtra(TenantDetails.KEY_USER_NAME,tenantSelected.getUserName());
+            i.putExtra(TenantDetails.KEY_USER_FLAT_NUMBER,tenantSelected.getFlatNumber());
+            i.putExtra(TenantDetails.KEY_VEHICLE_NUMBER, tenantSelected.getVehicleNumber());
+            i.putExtra(TenantDetails.KEY_CONTACT_NUMBER, tenantSelected.getContactNumber());
+            i.putExtra(TenantDetails.KEY_EMAIL, tenantSelected.getEmail());
+            startActivity(i);
+        }*/
+    }
+
+    private String getUserToken() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String tokenKey = getResources().getString(R.string.KEY_TOKEN);
+        return sharedPreferences.getString(tokenKey, "");
+    }
+
+    private int getUserId() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String userIdKey = getResources().getString(R.string.KEY_USER_ID);
+        return sharedPreferences.getInt(userIdKey,-1);
+    }
+
+
+
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_admin_home,menu);
         return super.onCreateOptionsMenu(menu);

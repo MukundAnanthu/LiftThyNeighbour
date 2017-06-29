@@ -120,7 +120,7 @@ public class TenantDetails extends Activity {
 
 
     private void deregisterTenant() {
-        final Toast errorToast = Toast.makeText(getApplicationContext(), "Failed to deregister tenant.Check Internet Connectivity.",Toast.LENGTH_LONG);
+        final Toast errorToast = Toast.makeText(getApplicationContext(), "Couldn't deregister tenant.Check Internet connectivity.",Toast.LENGTH_LONG);
         final Toast successToast = Toast.makeText(getApplicationContext(), "Deregistration successful.", Toast.LENGTH_LONG);
         int adminUserId = getAdminUserId();
         String token = getAdminToken();

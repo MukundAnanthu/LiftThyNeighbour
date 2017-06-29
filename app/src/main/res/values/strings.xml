@@ -19,6 +19,8 @@
     <string name="API_GET_TENANTS">/api/getTenants</string>
     <string name="API_APPROVAL">/api/approve</string>
     <string name="API_GET_PENDING_APPROVALS">/api/pendingApprovalList</string>
+    <string name="API_GET_FUTURE_RIDES_TAKEN">/api/futureRidesTaken</string>
+    <string name="API_GET_FUTURE_RIDES_OFFERED">/api/futureRidesOffered</string>
     <string name="API_DELETE_USER">/api/deleteProfile</string>
     <string name="sign_up">Sign Up</string>
     <string name="admin_home_title">Admin Home</string>
