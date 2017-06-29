@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.hackathon.gridlock.liftthyneighbour.util.RequestQueueProviderSingleton;
+import com.hackathon.gridlock.liftthyneighbour.vos.Ride;
 import com.hackathon.gridlock.liftthyneighbour.vos.TechPark;
 
 import org.json.JSONException;
@@ -34,6 +36,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class OfferRide extends Activity {
@@ -44,6 +48,7 @@ public class OfferRide extends Activity {
     private RequestQueue requestQueue;
 
     private static final String DATE_TIME_FORMAT = "yyyyMMddHHmm";
+    private static final String RIDE_TYPE_OFFER = "OFFER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +140,13 @@ public class OfferRide extends Activity {
     }
 
     public void onOfferRideButtonClicked(View v) {
+        int userId = getUserId();
+        if (userId == -1 ) {
+            Log.e("TakeRide: ", "No user Id found in shared preferences file");
+            return;
+        }
+
+        String token = getUserToken();
         int techParkId = getTechParkId();
         if (techParkId == -1  ) {
             Toast.makeText(getApplicationContext(), "Error choosing tech park. Try again.", Toast.LENGTH_LONG).show();
@@ -146,7 +158,77 @@ public class OfferRide extends Activity {
         int sourceType = getSourceType();
         int numSeats = getNumSeats();
 
+        //Make API call
+        final Toast errorToast = Toast.makeText(getApplicationContext(), "Couldn't Offer Ride. Try again. Check Internet connectivity.", Toast.LENGTH_LONG);
+
+        if (requestQueue != null) {
+            String baseUrl = getResources().getString(R.string.BASE_URL);
+            String targetUrl = baseUrl + getResources().getString(R.string.API_RIDE);
+            HashMap<String, Object> requestBody = new HashMap<String, Object>();
+            requestBody.put("userId",userId);
+            requestBody.put("token",token);
+            requestBody.put("sourceType", sourceType);
+            requestBody.put("techParkId", techParkId);
+            requestBody.put("timestamp",pickUpTimeInSecsUTC);
+            requestBody.put("type", RIDE_TYPE_OFFER);
+            requestBody.put("numberOfSeats", numSeats);
+
+
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, targetUrl, new JSONObject(requestBody), new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+
+                            s
+                            /*try {
+                                if (response != null ) {
+                                    Gson gson = new Gson();
+                                    Ride[] rideArray = gson.fromJson(response.getJSONArray("rideList").toString(), Ride[].class);
+                                    ArrayList<Ride> rides = new ArrayList<Ride>();
+                                    int numRides = rideArray.length;
+                                    for (int i = 0; i < numRides; i++ ) {
+                                        rides.add(rideArray[i]);
+                                    }
+                                    populateList(rides);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                errorToast.show();
+                            }*/
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorToast.show();
+                        }
+                    }){
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type","application/json");
+                    return headers;
+                }
+            };
+            jsObjRequest.setShouldCache(false);
+            requestQueue.add(jsObjRequest);
+        }
         //TODO API Call to book ride and display toast
+    }
+
+    private String getUserToken() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String tokenKey = getResources().getString(R.string.KEY_TOKEN);
+        return sharedPreferences.getString(tokenKey, "");
+    }
+
+    private int getUserId() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String userIdKey = getResources().getString(R.string.KEY_USER_ID);
+        return sharedPreferences.getInt(userIdKey,-1);
     }
 
     private int getNumSeats() {

@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,16 +36,19 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class TakeRide extends Activity {
 
+    private static final String RIDE_TYPE_TAKE = "TAKE";
     ArrayList<TechPark> techParks;
     private final String TIME_PICKER_FRAGMENT_TAG = "com.hackathon.gridlock.liftthyneighbour.TakeRide";
     private final String DATE_PICKER_FRAGMENT_TAG = "com.hackathon.gridlock.liftthyneighbour.TakeRide_date";
     private RequestQueue requestQueue;
 
-
+    private static final int SENTINEL_NUM_SEATS = -1;
     private static final String DATE_TIME_FORMAT = "yyyyMMddHHmm";
 
     @Override
@@ -135,7 +139,13 @@ public class TakeRide extends Activity {
     }
 
     public void onTakeRideButtonClicked(View v) {
+        int userId = getUserId();
+        if (userId == -1 ) {
+            Log.e("OfferRide: ", "No user Id found in shared preferences file");
+            return;
+        }
 
+        String token = getUserToken();
         int techParkId = getTechParkId();
         if (techParkId == -1  ) {
             Toast.makeText(getApplicationContext(), "Error choosing tech park. Try again.", Toast.LENGTH_LONG).show();
@@ -146,14 +156,85 @@ public class TakeRide extends Activity {
         //pickuptime includes both time and date of pick up
         String pickUpTimeInSecsUTC = getPickUpTime();
         int sourceType = getSourceType();
+        int numSeats = SENTINEL_NUM_SEATS;
+
+        //Make API call
+        final Toast errorToast = Toast.makeText(getApplicationContext(), "Couldn't Book Ride. Try again. Check Internet connectivity.", Toast.LENGTH_LONG);
+
+        if (requestQueue != null) {
+            String baseUrl = getResources().getString(R.string.BASE_URL);
+            String targetUrl = baseUrl + getResources().getString(R.string.API_RIDE);
+            HashMap<String, Object> requestBody = new HashMap<String, Object>();
+            requestBody.put("userId",userId);
+            requestBody.put("token",token);
+            requestBody.put("sourceType", sourceType);
+            requestBody.put("techParkId", techParkId);
+            requestBody.put("timestamp",pickUpTimeInSecsUTC);
+            requestBody.put("type", RIDE_TYPE_TAKE);
+            requestBody.put("numberOfSeats", numSeats);
 
 
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, targetUrl, new JSONObject(requestBody), new Response.Listener<JSONObject>() {
 
+                        @Override
+                        public void onResponse(JSONObject response) {
 
+                            if (response != null) {
+                                String status = response.getString("result");
+                                if( status.equals("SUCCESS")) {
 
+                                    //TODO Redirect to activity that displays driver details
+                                }
+                            }
 
-        return;
+                            /*try {
+                                if (response != null ) {
+                                    Gson gson = new Gson();
+                                    Ride[] rideArray = gson.fromJson(response.getJSONArray("rideList").toString(), Ride[].class);
+                                    ArrayList<Ride> rides = new ArrayList<Ride>();
+                                    int numRides = rideArray.length;
+                                    for (int i = 0; i < numRides; i++ ) {
+                                        rides.add(rideArray[i]);
+                                    }
+                                    populateList(rides);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                errorToast.show();
+                            }*/
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorToast.show();
+                        }
+                    }){
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type","application/json");
+                    return headers;
+                }
+            };
+            jsObjRequest.setShouldCache(false);
+            requestQueue.add(jsObjRequest);
+        }
         //TODO API request
+    }
+
+    private String getUserToken() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String tokenKey = getResources().getString(R.string.KEY_TOKEN);
+        return sharedPreferences.getString(tokenKey, "");
+    }
+
+    private int getUserId() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.PREFERENCE_FILE_NAME), Context.MODE_PRIVATE);
+        String userIdKey = getResources().getString(R.string.KEY_USER_ID);
+        return sharedPreferences.getInt(userIdKey,-1);
     }
 
     private int getSourceType() {

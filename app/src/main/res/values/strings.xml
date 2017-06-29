@@ -22,6 +22,7 @@
     <string name="API_GET_FUTURE_RIDES_TAKEN">/api/futureRidesTaken</string>
     <string name="API_GET_FUTURE_RIDES_OFFERED">/api/futureRidesOffered</string>
     <string name="API_DELETE_USER">/api/deleteProfile</string>
+    <string name="API_RIDE">/api/ride</string>
     <string name="sign_up">Sign Up</string>
     <string name="admin_home_title">Admin Home</string>
     <string name="deregister_tenant">Deregister</string>
