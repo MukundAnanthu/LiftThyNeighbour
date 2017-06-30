@@ -184,9 +184,10 @@ public class OfferRide extends Activity {
                                 if (response != null) {
                                     if(response.getString("result").equals("SUCCESS")) {
                                         rideOfferedToast.show();
+                                        redirectToUserHomeActivity();
                                     }
                                     else {
-                                        Log.e("OfferRide: ", "recived response as not success");
+                                        Log.e("OfferRide: ", "received response as not success");
                                     }
                                 }
                             } catch (JSONException e) {

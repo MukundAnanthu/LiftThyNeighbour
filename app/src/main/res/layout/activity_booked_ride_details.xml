@@ -17,11 +17,22 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/tvBRRideBookedTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Ride Booked!"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
             android:id="@+id/tvBRDriverNameLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Driver Name:"
             android:textSize="20sp"
+            android:layout_below="@+id/tvBRRideBookedTitle"
+            android:layout_marginTop="7dp"
             />
 
         <TextView
@@ -29,8 +40,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:layout_alignBottom="@+id/tvBRDriverNameLabel"
-            android:layout_toRightOf="@+id/tvBRDriverNameLabel"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/tvBRDriverNameLabel"
+            android:layout_alignLeft="@+id/tvBRDriverNameLabel"
             />
 
         <TextView
@@ -39,8 +51,9 @@
             android:layout_height="wrap_content"
             android:text="Contact Number:"
             android:textSize="20sp"
-            android:layout_below="@+id/tvBRDriverNameLabel"
+            android:layout_below="@+id/tvBRDriverName"
             android:layout_alignLeft="@+id/tvBRDriverNameLabel"
+            android:layout_marginTop="9dp"
             />
 
         <TextView
@@ -48,8 +61,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:layout_alignBottom="@+id/tvBRContactNumberLabel"
-            android:layout_toRightOf="@+id/tvBRContactNumberLabel"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/tvBRContactNumberLabel"
+            android:layout_alignLeft="@+id/tvBRContactNumberLabel"
             />
 
         <TextView
@@ -58,8 +72,9 @@
             android:layout_height="wrap_content"
             android:text="Vehicle Number:"
             android:textSize="20sp"
-            android:layout_below="@+id/tvBRDriverNameLabel"
+            android:layout_below="@+id/tvBRContactNumber"
             android:layout_alignLeft="@+id/tvBRDriverNameLabel"
+            android:layout_marginTop="9dp"
             />
 
         <TextView
@@ -67,8 +82,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:layout_alignBottom="@+id/tvBRVehicleNumberLabel"
-            android:layout_toRightOf="@+id/tvBRVehicleNumberLabel"
+            android:layout_marginTop="5dp"
+            android:layout_alignLeft="@+id/tvBRVehicleNumberLabel"
+            android:layout_below="@+id/tvBRVehicleNumberLabel"
             />
 
         <TextView
@@ -77,8 +93,9 @@
             android:layout_height="wrap_content"
             android:text="Pickup time:"
             android:textSize="20sp"
-            android:layout_below="@+id/tvBRVehicleNumberLabel"
-            android:layout_alignLeft="@+id/tvBRVehicleNumberLabel"
+            android:layout_marginTop="9dp"
+            android:layout_below="@+id/tvBRVehicleNumber"
+            android:layout_alignLeft="@+id/tvBRDriverNameLabel"
             />
 
         <TextView
@@ -86,8 +103,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:layout_alignBottom="@+id/tvBRPickUpTimeLabel"
-            android:layout_toRightOf="@+id/tvBRPickUpTimeLabel"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/tvBRPickUpTimeLabel"
+            android:layout_alignLeft="@+id/tvBRPickUpTimeLabel"
             />
     
     </RelativeLayout>

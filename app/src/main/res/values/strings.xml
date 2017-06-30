@@ -14,7 +14,7 @@
     <string name="KEY_USER_TYPE">com.hackathon.gridlock.KEY_USER_TYPE</string>
     <string name="USER_TYPE_ADMIN">ADMIN</string>
     <string name="USER_TYPE_NORMAL">USER</string>
-    <string name="BASE_URL">http://192.168.1.5:8080</string>
+    <string name="BASE_URL">http://192.168.1.6:8080</string>
     <string name="API_LOGIN">/api/login</string>
     <string name="API_GET_TENANTS">/api/getTenants</string>
     <string name="API_APPROVAL">/api/approve</string>
