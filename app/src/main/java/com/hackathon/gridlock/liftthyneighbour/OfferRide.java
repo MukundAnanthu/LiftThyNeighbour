@@ -181,7 +181,7 @@ public class OfferRide extends Activity {
                         public void onResponse(JSONObject response) {
 
 
-                            s
+
                             /*try {
                                 if (response != null ) {
                                     Gson gson = new Gson();

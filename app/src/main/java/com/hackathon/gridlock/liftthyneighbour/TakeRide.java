@@ -160,6 +160,7 @@ public class TakeRide extends Activity {
 
         //Make API call
         final Toast errorToast = Toast.makeText(getApplicationContext(), "Couldn't Book Ride. Try again. Check Internet connectivity.", Toast.LENGTH_LONG);
+        final Toast noMatchToast = Toast.makeText(getApplicationContext(), "Couldn't find a ride. Try again later.", Toast.LENGTH_LONG);
 
         if (requestQueue != null) {
             String baseUrl = getResources().getString(R.string.BASE_URL);
@@ -180,29 +181,23 @@ public class TakeRide extends Activity {
                         @Override
                         public void onResponse(JSONObject response) {
 
-                            if (response != null) {
-                                String status = response.getString("result");
-                                if( status.equals("SUCCESS")) {
-
-                                    //TODO Redirect to activity that displays driver details
-                                }
-                            }
-
-                            /*try {
-                                if (response != null ) {
-                                    Gson gson = new Gson();
-                                    Ride[] rideArray = gson.fromJson(response.getJSONArray("rideList").toString(), Ride[].class);
-                                    ArrayList<Ride> rides = new ArrayList<Ride>();
-                                    int numRides = rideArray.length;
-                                    for (int i = 0; i < numRides; i++ ) {
-                                        rides.add(rideArray[i]);
+                            try {
+                                if (response != null) {
+                                    String status = response.getString("result");
+                                    if (status.equals("SUCCESS")) {
+                                        String driverName = response.getString("driverName");
+                                        String contactNumber = response.getString("contactNumber");
+                                        String vehicleNumber = response.getString("vehicleNumber");
+                                        String departureTime = response.getString("departureTime");
+                                        redirectTobookedRideDetailsPage(driverName, contactNumber, vehicleNumber, departureTime);
+                                    } else {
+                                        noMatchToast.show();
                                     }
-                                    populateList(rides);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 errorToast.show();
-                            }*/
+                            }
                         }
                     }, new Response.ErrorListener() {
 
@@ -223,6 +218,15 @@ public class TakeRide extends Activity {
             requestQueue.add(jsObjRequest);
         }
         //TODO API request
+    }
+
+    private void redirectTobookedRideDetailsPage(String driverName, String contactNumber,String vehicleNumber,String departureTime) {
+        Intent bookedRideDetails = new Intent(this, BookedRideDetails.class);
+        bookedRideDetails.putExtra(BookedRideDetails.DRIVER_NAME, driverName);
+        bookedRideDetails.putExtra(BookedRideDetails.CONTACT_NUMBER, contactNumber);
+        bookedRideDetails.putExtra(BookedRideDetails.VEHICLE_NUMBER, vehicleNumber);
+        bookedRideDetails.putExtra(BookedRideDetails.DEPARTURE_TIME, departureTime);
+        startActivity(bookedRideDetails);
     }
 
     private String getUserToken() {

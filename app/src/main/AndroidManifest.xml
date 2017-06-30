@@ -64,8 +64,8 @@
             android:name=".FutureRidesTaken"
             android:label="Future Rides Taken"
             android:screenOrientation="portrait" />
-        <activity android:name=".RideDetails"
-            android:label="Ride Details"
+        <activity android:name=".BookedRideDetails"
+            android:label="Booked Ride Details"
             android:screenOrientation="portrait"
             />
     </application>

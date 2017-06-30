@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context="com.hackathon.gridlock.liftthyneighbour.BookedRideDetails"
+    >
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvBRDriverNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Driver Name:"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/tvBRDriverName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_alignBottom="@+id/tvBRDriverNameLabel"
+            android:layout_toRightOf="@+id/tvBRDriverNameLabel"
+            />
+
+        <TextView
+            android:id="@+id/tvBRContactNumberLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact Number:"
+            android:textSize="20sp"
+            android:layout_below="@+id/tvBRDriverNameLabel"
+            android:layout_alignLeft="@+id/tvBRDriverNameLabel"
+            />
+
+        <TextView
+            android:id="@+id/tvBRContactNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_alignBottom="@+id/tvBRContactNumberLabel"
+            android:layout_toRightOf="@+id/tvBRContactNumberLabel"
+            />
+
+        <TextView
+            android:id="@+id/tvBRVehicleNumberLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehicle Number:"
+            android:textSize="20sp"
+            android:layout_below="@+id/tvBRDriverNameLabel"
+            android:layout_alignLeft="@+id/tvBRDriverNameLabel"
+            />
+
+        <TextView
+            android:id="@+id/tvBRVehicleNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_alignBottom="@+id/tvBRVehicleNumberLabel"
+            android:layout_toRightOf="@+id/tvBRVehicleNumberLabel"
+            />
+
+        <TextView
+            android:id="@+id/tvBRPickUpTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pickup time:"
+            android:textSize="20sp"
+            android:layout_below="@+id/tvBRVehicleNumberLabel"
+            android:layout_alignLeft="@+id/tvBRVehicleNumberLabel"
+            />
+
+        <TextView
+            android:id="@+id/tvBRPickUpTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_alignBottom="@+id/tvBRPickUpTimeLabel"
+            android:layout_toRightOf="@+id/tvBRPickUpTimeLabel"
+            />
+    
+    </RelativeLayout>
+
+</ScrollView>
