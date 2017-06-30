@@ -160,7 +160,7 @@ public class OfferRide extends Activity {
 
         //Make API call
         final Toast errorToast = Toast.makeText(getApplicationContext(), "Couldn't Offer Ride. Try again. Check Internet connectivity.", Toast.LENGTH_LONG);
-
+        final Toast rideOfferedToast = Toast.makeText(getApplicationContext(), "Ride Offered!", Toast.LENGTH_LONG);
         if (requestQueue != null) {
             String baseUrl = getResources().getString(R.string.BASE_URL);
             String targetUrl = baseUrl + getResources().getString(R.string.API_RIDE);
@@ -180,23 +180,19 @@ public class OfferRide extends Activity {
                         @Override
                         public void onResponse(JSONObject response) {
 
-
-
-                            /*try {
-                                if (response != null ) {
-                                    Gson gson = new Gson();
-                                    Ride[] rideArray = gson.fromJson(response.getJSONArray("rideList").toString(), Ride[].class);
-                                    ArrayList<Ride> rides = new ArrayList<Ride>();
-                                    int numRides = rideArray.length;
-                                    for (int i = 0; i < numRides; i++ ) {
-                                        rides.add(rideArray[i]);
+                            try {
+                                if (response != null) {
+                                    if(response.getString("result").equals("SUCCESS")) {
+                                        rideOfferedToast.show();
                                     }
-                                    populateList(rides);
+                                    else {
+                                        Log.e("OfferRide: ", "recived response as not success");
+                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 errorToast.show();
-                            }*/
+                            }
                         }
                     }, new Response.ErrorListener() {
 
