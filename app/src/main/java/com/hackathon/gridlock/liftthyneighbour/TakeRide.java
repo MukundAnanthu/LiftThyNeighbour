@@ -273,7 +273,7 @@ public class TakeRide extends Activity {
 
         //sanity checks
         if (rawTimeString == null || rawTimeString.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Enter Pick up time", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Enter pickup time and date", Toast.LENGTH_LONG).show();
             return null;
         }
 
