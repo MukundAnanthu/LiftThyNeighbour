@@ -222,7 +222,6 @@ public class TakeRide extends Activity {
             jsObjRequest.setShouldCache(false);
             requestQueue.add(jsObjRequest);
         }
-        //TODO API request
     }
 
     private void redirectTobookedRideDetailsPage(String driverName, String contactNumber,String vehicleNumber,String departureTime) {

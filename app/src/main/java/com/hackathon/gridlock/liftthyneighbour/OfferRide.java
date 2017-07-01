@@ -216,7 +216,6 @@ public class OfferRide extends Activity {
             jsObjRequest.setShouldCache(false);
             requestQueue.add(jsObjRequest);
         }
-        //TODO API Call to book ride and display toast
     }
 
     private String getUserToken() {

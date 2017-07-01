@@ -276,9 +276,6 @@ public class PendingApprovalDetails extends Activity {
             requestQueue.add(jsObjRequest);
 
         }
-
-
-        //TODO send rejection API request. Toast result
     }
 
 
