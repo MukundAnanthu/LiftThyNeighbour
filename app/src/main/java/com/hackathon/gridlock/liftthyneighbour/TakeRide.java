@@ -161,7 +161,7 @@ public class TakeRide extends Activity {
         //Make API call
         final Toast errorToast = Toast.makeText(getApplicationContext(), "Couldn't Book Ride. Try again. Check Internet connectivity.", Toast.LENGTH_LONG);
         final Toast noMatchToast = Toast.makeText(getApplicationContext(), "Couldn't find a ride. Try again later.", Toast.LENGTH_LONG);
-
+        final Toast tooLateToast = Toast.makeText(getApplicationContext(), "Must book ride atleast one hour before!", Toast.LENGTH_LONG);
         if (requestQueue != null) {
             String baseUrl = getResources().getString(R.string.BASE_URL);
             String targetUrl = baseUrl + getResources().getString(R.string.API_RIDE);
@@ -191,7 +191,12 @@ public class TakeRide extends Activity {
                                         String departureTime = response.getString("departureTime");
                                         redirectTobookedRideDetailsPage(driverName, contactNumber, vehicleNumber, departureTime);
                                     } else {
-                                        noMatchToast.show();
+                                        String tooLate = "Ride should be offered or taken atleast one hour before";
+                                        if (response.getString("message").equals(tooLate)) {
+                                            tooLateToast.show();
+                                        } else {
+                                            noMatchToast.show();
+                                        }
                                     }
                                 }
                             } catch (JSONException e) {

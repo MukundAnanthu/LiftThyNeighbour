@@ -188,11 +188,14 @@ public class OfferRide extends Activity {
                                     }
                                     else {
                                         Log.e("OfferRide: ", "received response as not success");
+                                        //Log.e("OfferRide:result ", response.getString("result"));
+                                        //Log.e("OfferRide:msg ", response.getString("message"));
                                     }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 errorToast.show();
+
                             }
                         }
                     }, new Response.ErrorListener() {
