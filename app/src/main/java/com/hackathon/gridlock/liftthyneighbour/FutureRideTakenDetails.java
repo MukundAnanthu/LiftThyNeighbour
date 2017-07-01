@@ -13,42 +13,48 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class RideOfferedDetails extends Activity {
+public class FutureRideTakenDetails extends Activity {
 
-    public static final String RIDE_EXTRA_TIMESTAMP = "RIDE_TIMESTAMP";
-    public static final String RIDE_EXTRA_VEHICLE_NUM = "RIDE_VEHICLE_NUM";
-    public static final String RIDE_EXTRA_SOURCE = "RIDE_SOURCE";
-    public static final String RIDE_EXTRA_DEST = "RIDE_DEST";
-    public static final String RIDE_EXTRA_NUM_PASSENGERS = "RIDE_NUM_PASSENGERS";
+    public static final String EXTRA_TIMESTAMP = "FUTURE_RIDE_TAKEN_DETAILS_TIMESTAMP";
+    public static final String EXTRA_DRIVER_NAME = "FUTURE_RIDE_TAKEN_DETAILS_DRIVER_NAME";
+    public static final String EXTRA_VEHICLE_NUM = "FUTURE_RIDE_TAKEN_DETAILS_VEHICLE_NUM";
+    public static final String EXTRA_CONTACT_NUM = "FUTURE_RIDE_TAKEN_DETAILS_CONTACT_NUM";
+    public static final String EXTRA_SRC_NAME = "FUTURE_RIDE_TAKEN_DETAILS_SRC_NAME";
+    public static final String EXTRA_DEST_NAME = "FUTURE_RIDE_TAKEN_DETAILS_DEST_NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ride_offered_details);
+        setContentView(R.layout.activity_future_ride_taken_details);
 
         displayInformation();
     }
 
     private void displayInformation() {
-
-
         Intent receivedIntent = getIntent();
-        if (receivedIntent != null) {
 
-            TextView tvSource = (TextView) findViewById(R.id.tvRODSourceName);
-            tvSource.setText(receivedIntent.getStringExtra(RIDE_EXTRA_SOURCE));
-
-            TextView tvDest = (TextView) findViewById(R.id.tvRODDestName);
-            tvDest.setText(receivedIntent.getStringExtra(RIDE_EXTRA_DEST));
-
-            TextView tvPickUpTime = (TextView) findViewById(R.id.tvRODPickUpTime);
-            tvPickUpTime.setText(getFormattedDateAndTime(receivedIntent.getStringExtra(RIDE_EXTRA_TIMESTAMP)));
-
-            TextView tvNumPassengers = (TextView) findViewById(R.id.tvRODNumPassengers);
-            tvNumPassengers.setText(Integer.toString(receivedIntent.getIntExtra(RIDE_EXTRA_NUM_PASSENGERS, 0)));
+        if (receivedIntent == null) {
+            return;
         }
-    }
 
+        TextView tvDriverName = (TextView) findViewById(R.id.tvRTDDriverName);
+        tvDriverName.setText(receivedIntent.getStringExtra(EXTRA_DRIVER_NAME));
+
+        TextView tvDriverContact = (TextView) findViewById(R.id.tvRTDDriverContact);
+        tvDriverContact.setText(receivedIntent.getStringExtra(EXTRA_CONTACT_NUM));
+
+        TextView tvVehicleNum = (TextView) findViewById(R.id.tvRTDVehicleNumber);
+        tvVehicleNum.setText(receivedIntent.getStringExtra(EXTRA_VEHICLE_NUM));
+
+        TextView tvSrc = (TextView) findViewById(R.id.tvRTDSourceName);
+        tvSrc.setText(receivedIntent.getStringExtra(EXTRA_SRC_NAME));
+
+        TextView tvDest = (TextView) findViewById(R.id.tvRTDDestName);
+        tvDest.setText(receivedIntent.getStringExtra(EXTRA_DEST_NAME));
+
+        TextView tvPickupTime = (TextView) findViewById(R.id.tvRTDPickUpTime);
+        tvPickupTime.setText(getFormattedDateAndTime(receivedIntent.getStringExtra(EXTRA_TIMESTAMP)));
+    }
 
     private String getFormattedDateAndTime(String ts) {
         Long tsL = Long.parseLong(ts+"000");

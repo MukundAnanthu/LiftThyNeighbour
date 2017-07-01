@@ -27,9 +27,12 @@ import com.hackathon.gridlock.liftthyneighbour.vos.Ride;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class FutureRidesTaken extends Activity {
 
@@ -74,7 +77,7 @@ public class FutureRidesTaken extends Activity {
                             try {
                                 if (response != null ) {
                                     Gson gson = new Gson();
-                                    Ride[] rideArray = gson.fromJson(response.getJSONArray("rideList").toString(), Ride[].class);
+                                    Ride[] rideArray = gson.fromJson(response.getJSONArray("ridesTake").toString(), Ride[].class);
                                     ArrayList<Ride> rides = new ArrayList<Ride>();
                                     int numRides = rideArray.length;
                                     for (int i = 0; i < numRides; i++ ) {
@@ -114,7 +117,7 @@ public class FutureRidesTaken extends Activity {
         this.rides = rides;
 
         for (Ride ride : rides) {
-            String toDisplay = null;//TODO = ride.getUserName()+" (" + tenant.getFlatNumber() + " )";
+            String toDisplay = ride.getDriverName() + "\n" + getFormattedDateAndTime(ride.getTimestamp());
             rideListItem.add(toDisplay);
         }
 
@@ -138,20 +141,24 @@ public class FutureRidesTaken extends Activity {
         });
     }
 
+    private String getFormattedDateAndTime(String ts) {
+        Long tsL = Long.parseLong(ts+"000");
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a dd/MM/yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+        return sdf.format(new Date(tsL));
+    }
+
 
     private void showRideDetails(int position) {
-        //TODO
-        /*private void showTenantDetails(int position) {
-            Tenant tenantSelected = tenants.get(position);
-            Intent i = new Intent(this, TenantDetails.class);
-            i.putExtra(TenantDetails.KEY_USER_ID,tenantSelected.getUserId());
-            i.putExtra(TenantDetails.KEY_USER_NAME,tenantSelected.getUserName());
-            i.putExtra(TenantDetails.KEY_USER_FLAT_NUMBER,tenantSelected.getFlatNumber());
-            i.putExtra(TenantDetails.KEY_VEHICLE_NUMBER, tenantSelected.getVehicleNumber());
-            i.putExtra(TenantDetails.KEY_CONTACT_NUMBER, tenantSelected.getContactNumber());
-            i.putExtra(TenantDetails.KEY_EMAIL, tenantSelected.getEmail());
-            startActivity(i);
-        }*/
+        Ride ride = this.rides.get(position);
+        Intent i = new Intent(this, FutureRideTakenDetails.class);
+        i.putExtra(FutureRideTakenDetails.EXTRA_DRIVER_NAME, ride.getDriverName());
+        i.putExtra(FutureRideTakenDetails.EXTRA_CONTACT_NUM, ride.getContactNumber());
+        i.putExtra(FutureRideTakenDetails.EXTRA_VEHICLE_NUM, ride.getVehicleNumber());
+        i.putExtra(FutureRideTakenDetails.EXTRA_SRC_NAME, ride.getSrcName());
+        i.putExtra(FutureRideTakenDetails.EXTRA_DEST_NAME, ride.getDestinationName());
+        i.putExtra(FutureRideTakenDetails.EXTRA_TIMESTAMP, ride.getTimestamp());
+        startActivity(i);
     }
 
     private String getUserToken() {
