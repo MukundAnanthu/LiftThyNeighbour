@@ -64,10 +64,11 @@
             android:name=".FutureRidesTaken"
             android:label="Future Rides Taken"
             android:screenOrientation="portrait" />
-        <activity android:name=".BookedRideDetails"
+        <activity
+            android:name=".BookedRideDetails"
             android:label="Booked Ride Details"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
+        <activity android:name=".RideOfferedDetails"></activity>
     </application>
 
 </manifest>
