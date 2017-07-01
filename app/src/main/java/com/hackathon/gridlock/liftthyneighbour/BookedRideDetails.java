@@ -9,14 +9,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
-import org.w3c.dom.Text;
 
 /*
   Called to display driver details after booking ride for a user using Take Ride
 * Created by Mukund Ananthu
 * */
 public class BookedRideDetails extends Activity {
+
+    private static final String DATE_FORMAT = "yyyyMMddHHmm";
 
     public static final String DRIVER_NAME = "driverName";
     public static final String CONTACT_NUMBER = "contactNumber";
@@ -40,11 +44,18 @@ public class BookedRideDetails extends Activity {
             TextView vehicleNumber = (TextView) findViewById(R.id.tvBRVehicleNumber);
             vehicleNumber.setText(receivedIntent.getStringExtra(VEHICLE_NUMBER));
             TextView pickupTime = (TextView) findViewById(R.id.tvBRPickUpTime);
-            pickupTime.setText(receivedIntent.getStringExtra(DEPARTURE_TIME));
+            pickupTime.setText(getFormattedDateAndTime(receivedIntent.getStringExtra(DEPARTURE_TIME)));
         }
         else {
             Log.e("BookedRideDetails: ", "received intent null");
         }
+    }
+
+    private String getFormattedDateAndTime(String ts) {
+        Long tsL = Long.parseLong(ts+"000");
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a dd/MM/yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+        return sdf.format(new Date(tsL));
     }
 
     @Override
