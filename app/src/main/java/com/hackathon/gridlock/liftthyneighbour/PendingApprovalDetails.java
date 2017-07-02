@@ -44,7 +44,7 @@ public class PendingApprovalDetails extends Activity {
     private String userName;
     private String flatNumber;
     private String vehicleNumber;
-    private long contactNumber;
+    private String contactNumber;
     private String email;
 
     private RequestQueue requestQueue;
@@ -82,11 +82,11 @@ public class PendingApprovalDetails extends Activity {
         this.vehicleNumber = vehicleNumber;
     }
 
-    public long getContactNumber() {
+    public String getContactNumber() {
         return contactNumber;
     }
 
-    public void setContactNumber(long contactNumber) {
+    public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
 
@@ -285,7 +285,7 @@ public class PendingApprovalDetails extends Activity {
         setUserName(i.getStringExtra(PendingApprovalDetails.KEY_USER_NAME));
         setFlatNumber(i.getStringExtra(PendingApprovalDetails.KEY_USER_FLAT_NUMBER));
         setVehicleNumber(i.getStringExtra(PendingApprovalDetails.KEY_VEHICLE_NUMBER));
-        setContactNumber(i.getIntExtra(PendingApprovalDetails.KEY_CONTACT_NUMBER,-1));
+        setContactNumber(i.getStringExtra(PendingApprovalDetails.KEY_CONTACT_NUMBER));
         setEmail(i.getStringExtra(PendingApprovalDetails.KEY_EMAIL));
 
 
@@ -297,7 +297,7 @@ public class PendingApprovalDetails extends Activity {
         TextView tvVehicleNumber = (TextView) findViewById(R.id.tvPAVehicleNumber);
         tvVehicleNumber.setText(getVehicleNumber());
         TextView tvContactNumber = (TextView) findViewById(R.id.tvPAContactNumber);
-        tvContactNumber.setText(Long.toString(getContactNumber()));
+        tvContactNumber.setText(getContactNumber());
         TextView tvEmail = (TextView) findViewById(R.id.tvPAEmail);
         tvEmail.setText(getEmail());
     }

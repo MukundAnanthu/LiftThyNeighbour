@@ -42,7 +42,7 @@ public class TenantDetails extends Activity {
     private String userName;
     private String flatNumber;
     private String vehicleNumber;
-    private long contactNumber;
+    private String contactNumber;
     private String email;
 
     private RequestQueue requestQueue;
@@ -79,11 +79,11 @@ public class TenantDetails extends Activity {
         this.vehicleNumber = vehicleNumber;
     }
 
-    public long getContactNumber() {
+    public String getContactNumber() {
         return contactNumber;
     }
 
-    public void setContactNumber(long contactNumber) {
+    public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
 
@@ -200,7 +200,7 @@ public class TenantDetails extends Activity {
         setUserName(i.getStringExtra(TenantDetails.KEY_USER_NAME));
         setFlatNumber(i.getStringExtra(TenantDetails.KEY_USER_FLAT_NUMBER));
         setVehicleNumber(i.getStringExtra(TenantDetails.KEY_VEHICLE_NUMBER));
-        setContactNumber(i.getIntExtra(TenantDetails.KEY_CONTACT_NUMBER,-1));
+        setContactNumber(i.getStringExtra(TenantDetails.KEY_CONTACT_NUMBER));
         setEmail(i.getStringExtra(TenantDetails.KEY_EMAIL));
 
 
@@ -212,7 +212,7 @@ public class TenantDetails extends Activity {
         TextView tvVehicleNumber = (TextView) findViewById(R.id.tvTDVehicleNumber);
         tvVehicleNumber.setText(getVehicleNumber());
         TextView tvContactNumber = (TextView) findViewById(R.id.tvTDContactNumber);
-        tvContactNumber.setText(Long.toString(getContactNumber()));
+        tvContactNumber.setText(getContactNumber());
         TextView tvEmail = (TextView) findViewById(R.id.tvTDEmail);
         tvEmail.setText(getEmail());
     }

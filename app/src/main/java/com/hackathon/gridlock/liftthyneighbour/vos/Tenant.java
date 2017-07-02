@@ -10,13 +10,13 @@ public class Tenant {
     private String userName;
     private String flatNumber;
     private String vehicleNumber;
-    private long contactNumber;
+    private String contactNumber;
     private String email;
 
 
     public Tenant() {}
 
-    public Tenant(int userId, String userName, String flatNumber, String vehicleNumber, long contactNumber, String email) {
+    public Tenant(int userId, String userName, String flatNumber, String vehicleNumber, String contactNumber, String email) {
         this.userId = userId;
         this.userName = userName;
         this.flatNumber = flatNumber;
@@ -57,11 +57,11 @@ public class Tenant {
         this.vehicleNumber = vehicleNumber;
     }
 
-    public long getContactNumber() {
+    public String getContactNumber() {
         return contactNumber;
     }
 
-    public void setContactNumber(long contactNumber) {
+    public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
 
