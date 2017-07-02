@@ -129,13 +129,13 @@ public class PendingApprovals extends Activity {
             pendingListItem.add(toDisplay);
         }
 
-        // Sort the tenants alphabetically
+        /*// Sort the tenants alphabetically
         Collections.sort(pendingListItem, new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
                 return s1.compareToIgnoreCase(s2);
             }
-        });
+        });*/
 
 
         // Populate the listView

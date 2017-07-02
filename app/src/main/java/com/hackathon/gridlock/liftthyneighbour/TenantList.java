@@ -135,12 +135,12 @@ public class TenantList extends Activity {
         }
 
         // Sort the tenants alphabetically
-        Collections.sort(tenantListItem, new Comparator<String>() {
+        /*Collections.sort(tenantListItem, new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
                 return s1.compareToIgnoreCase(s2);
             }
-        });
+        });*/
 
 
         // Populate the listView
