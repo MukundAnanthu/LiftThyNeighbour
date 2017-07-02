@@ -1,6 +1,7 @@
 package com.hackathon.gridlock.liftthyneighbour;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -139,6 +140,7 @@ public class SignUpActivity extends Activity {
                                 String authenticationStatus = response.getString("result");
                                 if (authenticationStatus.equals("SUCCESS")) {
                                     successToast.show();
+                                    redirectToSignInPage();
                                 }
                                 else {
                                     errorToast.show();
@@ -182,5 +184,14 @@ public class SignUpActivity extends Activity {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,apartmentNames);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         apartmentSpinner.setAdapter(spinnerAdapter);
+    }
+
+    private void redirectToSignInPage() {
+        Intent i = new Intent(this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        finish();
     }
 }

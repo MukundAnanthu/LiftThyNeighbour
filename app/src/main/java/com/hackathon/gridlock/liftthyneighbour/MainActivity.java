@@ -236,7 +236,11 @@ public class MainActivity extends Activity {
     // switches from sign in activity to admin home screen
     private void redirectToAdminHomePage() {
         Intent i = new Intent(this, AdminHomeActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
+        finish();
     }
 
     private void setTokenAndUserType(String token, String userType) {
@@ -250,7 +254,11 @@ public class MainActivity extends Activity {
 
     private void redirectToUserHomePage() {
         Intent i = new Intent(this, UserHomeActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
+        finish();
     }
 
     private void updateSignedInSharedPreference() {
