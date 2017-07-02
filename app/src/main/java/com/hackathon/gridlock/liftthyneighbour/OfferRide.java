@@ -161,6 +161,8 @@ public class OfferRide extends Activity {
         //Make API call
         final Toast errorToast = Toast.makeText(getApplicationContext(), "Couldn't Offer Ride. Try again. Check Internet connectivity.", Toast.LENGTH_LONG);
         final Toast rideOfferedToast = Toast.makeText(getApplicationContext(), "Ride Offered!", Toast.LENGTH_LONG);
+        final Toast tooLateToast = Toast.makeText(getApplicationContext(), "Must offer ride atleast one hour before!", Toast.LENGTH_LONG);
+
         if (requestQueue != null) {
             String baseUrl = getResources().getString(R.string.BASE_URL);
             String targetUrl = baseUrl + getResources().getString(R.string.API_RIDE);
@@ -187,15 +189,21 @@ public class OfferRide extends Activity {
                                         redirectToUserHomeActivity();
                                     }
                                     else {
+                                        String tooLate = "Ride should be offered or taken atleast one hour before";
+                                        if (response.getString("message").equals(tooLate)) {
+                                            tooLateToast.show();
+                                        } else {
+                                            errorToast.show();
+                                            Log.e("wtf",response.getString("message"));
+                                        }
+
                                         Log.e("OfferRide: ", "received response as not success");
-                                        //Log.e("OfferRide:result ", response.getString("result"));
-                                        //Log.e("OfferRide:msg ", response.getString("message"));
                                     }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 errorToast.show();
-
+                                Log.e("waarh","bangude");
                             }
                         }
                     }, new Response.ErrorListener() {
